@@ -1,0 +1,13 @@
+name: fluxite
+version: 0.1.0
+
+authors:
+  - Alexey Yurchenko <homonoidian@yandex.ru>
+
+development_dependencies:
+  microtest:
+    github: ragmaanir/microtest
+
+crystal: '>= 1.12.0'
+
+license: MIT
