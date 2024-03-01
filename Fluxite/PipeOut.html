@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.10.1">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="fluxite">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="fluxite">
+  <title>Fluxite::PipeOut(T) - fluxite trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          fluxite
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="fluxite/Fluxite" data-name="fluxite">
+      <a href="../Fluxite.html">Fluxite</a>
+      
+        <ul>
+  
+  <li class=" " data-id="fluxite/Fluxite/BaseMessage" data-name="fluxite::basemessage">
+      <a href="../Fluxite/BaseMessage.html">BaseMessage</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/Cut" data-name="fluxite::cut">
+      <a href="../Fluxite/Cut.html">Cut</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/IFanout" data-name="fluxite::ifanout(t)">
+      <a href="../Fluxite/IFanout.html">IFanout</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/IMailbox" data-name="fluxite::imailbox(t)">
+      <a href="../Fluxite/IMailbox.html">IMailbox</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/Message" data-name="fluxite::message(t)">
+      <a href="../Fluxite/Message.html">Message</a>
+      
+    </li>
+  
+  <li class=" current" data-id="fluxite/Fluxite/PipeOut" data-name="fluxite::pipeout(t)">
+      <a href="../Fluxite/PipeOut.html">PipeOut</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/Port" data-name="fluxite::port(t)">
+      <a href="../Fluxite/Port.html">Port</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/Unit" data-name="fluxite::unit">
+      <a href="../Fluxite/Unit.html">Unit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Fluxite::<wbr>PipeOut(T)
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct including types
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Fluxite/Port.html">Fluxite::Port(T)</a></li>
+    
+  </ul>
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L1" target="_blank">
+        fluxite/pipeout.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#after%28other%3AIFanout%28U%29%29forallU-instance-method" class="signature"><strong>#after</strong>(other : IFanout(U)) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#batch%28%26fn%3AArray%28T%29%2CT-%3ECut%29-instance-method" class="signature"><strong>#batch</strong>(&fn : Array(T), T -> Cut)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#batch%28n%3AInt%29-instance-method" class="signature"><strong>#batch</strong>(n : Int)</a>
+        
+          <div class="summary"><p>Emits batches of <em>n</em> incoming objects.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#before%28other%3AIFanout%28U%29%29forallU-instance-method" class="signature"><strong>#before</strong>(other : IFanout(U)) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#blast%28%26fn%3AT-%3EEnumerable%28U%29%29forallU-instance-method" class="signature"><strong>#blast</strong>(&fn : T -> Enumerable(U)) forall U</a>
+        
+          <div class="summary"><p>Forwards incoming objects to <em>fn</em>, emits each element from the enumerable returned by <em>fn</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#compact_map%28%26fn%3AT-%3EU%7CNil%29forallU-instance-method" class="signature"><strong>#compact_map</strong>(&fn : T -> U | Nil) forall U</a>
+        
+          <div class="summary"><p>Similar to <code><a href="../Fluxite/PipeOut.html#map%28%26fn%3AT-%3EU%29forallU-instance-method">#map</a></code>, but skips <code>.nil?</code> return values of <em>fn</em> (so <code>false</code> is still emitted).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#during%28gate%3AIFanout%28Bool%29%29-instance-method" class="signature"><strong>#during</strong>(gate : IFanout(Bool))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#each%28%26fn%3AT-%3E%29-instance-method" class="signature"><strong>#each</strong>(&fn : T -> )</a>
+        
+          <div class="summary"><p>Attaches a terminal function <em>fn</em> which consumes data but does not emit any.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#forward%28cls%3AU.class%2C%26fn%3AT%2CForward%3A%3AFeed%28U%29-%3E%29forallU-instance-method" class="signature"><strong>#forward</strong>(cls : <span class="t">U</span>.<span class="k">class</span>, &fn : T, Forward::Feed(U) -> ) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#gate%28%2A%2Cbyother%3AIFanout%28Bool%29%29-instance-method" class="signature"><strong>#gate</strong>(*, by other : IFanout(Bool))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28other%3AIFanout%28U%29%2Cascls%3AU.class%29%3AselfforallU-instance-method" class="signature"><strong>#into</strong>(other : IFanout(U), as cls : <span class="t">U</span>.<span class="k">class</span>) : <span class="k">self</span> forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28other%3AIMailbox%28T%29%29-instance-method" class="signature"><strong>#into</strong>(other : IMailbox(T))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28other%3AIMailbox%28U%29%29forallU-instance-method" class="signature"><strong>#into</strong>(other : IMailbox(U)) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28other%3AIFanout%28U%29%2C%26fn%3AT-%3EU%29%3AselfforallU-instance-method" class="signature"><strong>#into</strong>(other : IFanout(U), &fn : T -> U) : <span class="k">self</span> forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28%26fn%3AT-%3EEnumerable%28IMailbox%28T%29%29%29%3ANil-instance-method" class="signature"><strong>#into</strong>(&fn : T -> Enumerable(IMailbox(T))) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#map%28%26fn%3AT-%3EU%29forallU-instance-method" class="signature"><strong>#map</strong>(&fn : T -> U) forall U</a>
+        
+          <div class="summary"><p>Emits data transformed using <em>fn</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#map%28cls%3AU.class%29forallU-instance-method" class="signature"><strong>#map</strong>(cls : <span class="t">U</span>.<span class="k">class</span>) forall U</a>
+        
+          <div class="summary"><p>If <code>U.class</code> responds to <code>[]</code> (treated as a smart constructor), calls <code>U[object]</code>, otherwise, calls <code>U.new(object)</code>, where <em>object</em> is each incoming object.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#map%28%2Alayout%3A%2AU%29forallU-instance-method" class="signature"><strong>#map</strong>(*layout : <span class="o">*</span><span class="t">U</span>) forall U</a>
+        
+          <div class="summary"><p>Similar to <code><a href="../Fluxite/PipeOut.html#map%28cls%3AU.class%29forallU-instance-method">#map(cls : U.class)</a></code>, but performs elementwise conversion as described by <em>layout</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#only%28%2Aargs%2C%2A%2Akwargs%2C%26fn%3AT-%3EBool%29-instance-method" class="signature"><strong>#only</strong>(*args, **kwargs, &fn : T -> Bool)</a>
+        
+          <div class="summary"><p>Alias of <code><a href="../Fluxite/PipeOut.html#select%28%26fn%3AT-%3EBool%29-instance-method">#select</a></code> for when you cannot use <code><a href="../Fluxite/PipeOut.html#select%28%26fn%3AT-%3EBool%29-instance-method">#select</a></code> (as it is a Crystal keyword).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#only%28%2Aargs%2C%2A%2Akwargs%29-instance-method" class="signature"><strong>#only</strong>(*args, **kwargs)</a>
+        
+          <div class="summary"><p>Alias of <code><a href="../Fluxite/PipeOut.html#select%28%26fn%3AT-%3EBool%29-instance-method">#select</a></code> for when you cannot use <code><a href="../Fluxite/PipeOut.html#select%28%26fn%3AT-%3EBool%29-instance-method">#select</a></code> (as it is a Crystal keyword).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#or%28other%3AIFanout%28U%29%29forallU-instance-method" class="signature"><strong>#or</strong>(other : IFanout(U)) forall U</a>
+        
+          <div class="summary"><p>Combines emission of <code>self</code> and <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#partition%28%26fn%3AT-%3EBool%29-instance-method" class="signature"><strong>#partition</strong>(&fn : T -> Bool)</a>
+        
+          <div class="summary"><p>Creates and returns two ports, <em>yay</em> and <em>nay</em>, redirecting those objects for which <em>fn</em> returns <code>true</code> to <em>yay</em>; and those objects for which <em>fn</em> returns <code>false</code> to <em>nay</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reject%28%26fn%3AT-%3EBool%29-instance-method" class="signature"><strong>#reject</strong>(&fn : T -> Bool)</a>
+        
+          <div class="summary"><p>Emits only those incoming objects for which <em>fn</em> returns <code>false</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reject%28pattern%29-instance-method" class="signature"><strong>#reject</strong>(pattern)</a>
+        
+          <div class="summary"><p>Emits only those incoming objects that compare <em>not</em> equal to the given <em>pattern</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#select%28%26fn%3AT-%3EBool%29-instance-method" class="signature"><strong>#select</strong>(&fn : T -> Bool)</a>
+        
+          <div class="summary"><p>Emits only those incoming objects for which <em>fn</em> returns <code>true</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#select%28ascls%3AU.class%29forallU-instance-method" class="signature"><strong>#select</strong>(as cls : <span class="t">U</span>.<span class="k">class</span>) forall U</a>
+        
+          <div class="summary"><p>Emits incoming objects of type <code>U</code>, casting them to type <code>U</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#select%28pattern%29-instance-method" class="signature"><strong>#select</strong>(pattern)</a>
+        
+          <div class="summary"><p>Emits only those incoming objects that compare equal to the given <em>pattern</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#squash%28initial%3AT%2C%26fn%3AT%2CT-%3EBool%29-instance-method" class="signature"><strong>#squash</strong>(initial : T, &fn : T, T -> Bool)</a>
+        
+          <div class="summary"><p>Emits an incoming object if it is different from the preceding object.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#squash%28%26fn%3AT%2CT-%3EBool%29-instance-method" class="signature"><strong>#squash</strong>(&fn : T, T -> Bool)</a>
+        
+          <div class="summary"><p>Emits an incoming object if it is different from the preceding object.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#squash%28%2Aargs%2C%2A%2Akwargs%29-instance-method" class="signature"><strong>#squash</strong>(*args, **kwargs)</a>
+        
+          <div class="summary"><p>Emits an incoming object if it is different from the preceding one.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#squash_by%28initial%3AU%2C%26fn%3AT-%3EU%29forallU-instance-method" class="signature"><strong>#squash_by</strong>(initial : U, &fn : T -> U) forall U</a>
+        
+          <div class="summary"><p>Emits an incoming object if its return value of <em>fn</em> is different from that produced by the preceding object.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#squash_by%28%26fn%3AT-%3EU%29forallU-instance-method" class="signature"><strong>#squash_by</strong>(&fn : T -> U) forall U</a>
+        
+          <div class="summary"><p>Emits an incoming object if its return value of <em>fn</em> is different from that produced by the preceding object.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#track%28other%3AIFanout%28U%29%2Cdefault%3AU%29forallU-instance-method" class="signature"><strong>#track</strong>(other : IFanout(U), default : U) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#track%28other%3AIFanout%28U%29%29forallU-instance-method" class="signature"><strong>#track</strong>(other : IFanout(U)) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#up_to%28%26fn%3AArray%28T%29%2CT-%3ECut%29-instance-method" class="signature"><strong>#up_to</strong>(&fn : Array(T), T -> Cut)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#up_to%28n%3AInt%29-instance-method" class="signature"><strong>#up_to</strong>(n : Int)</a>
+        
+          <div class="summary"><p>Emits up to <em>n</em> incoming objects.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="after(other:IFanout(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>after</strong>(other : <a href="../Fluxite/IFanout.html">IFanout</a>(U)) forall U
+
+        <a class="method-permalink" href="#after%28other%3AIFanout%28U%29%29forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L504" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="batch(&amp;fn:Array(T),T-&gt;Cut)-instance-method">
+      <div class="signature">
+        
+        def <strong>batch</strong>(&fn : Array(T), T -> <a href="../Fluxite/Cut.html">Cut</a>)
+
+        <a class="method-permalink" href="#batch%28%26fn%3AArray%28T%29%2CT-%3ECut%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L426" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="batch(n:Int)-instance-method">
+      <div class="signature">
+        
+        def <strong>batch</strong>(n : Int)
+
+        <a class="method-permalink" href="#batch%28n%3AInt%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits batches of <em>n</em> incoming objects. Waits until the entire batch is
+collected, and only then emits it. Then starts fresh from a new empty batch.</p>
+<p>The emitted batch array is fully yours. You can read/mutate it however
+you want.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.batch(<span class="n">3</span>).each { <span class="o">|</span>triple<span class="o">|</span> p! triple }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">5</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">6</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">7</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c"># triple # =&gt; [1, 2, 3]</span>
+<span class="c"># triple # =&gt; [4, 5, 6]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L456" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="before(other:IFanout(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>before</strong>(other : <a href="../Fluxite/IFanout.html">IFanout</a>(U)) forall U
+
+        <a class="method-permalink" href="#before%28other%3AIFanout%28U%29%29forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L494" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="blast(&amp;fn:T-&gt;Enumerable(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>blast</strong>(&fn : T -> Enumerable(U)) forall U
+
+        <a class="method-permalink" href="#blast%28%26fn%3AT-%3EEnumerable%28U%29%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Forwards incoming objects to <em>fn</em>, emits each element from the enumerable
+returned by <em>fn</em>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">String</span>).new
+xs.blast(<span class="o">&amp;</span>.chars).squash.each { <span class="o">|</span>ch<span class="o">|</span> p! ch }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="s">&quot;helloo&quot;</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   ch # =&gt; &#39;h&#39;</span>
+<span class="c">#   ch # =&gt; &#39;e&#39;</span>
+<span class="c">#   ch # =&gt; &#39;l&#39;</span>
+<span class="c">#   ch # =&gt; &#39;o&#39;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L176" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="compact_map(&amp;fn:T-&gt;U|Nil)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>compact_map</strong>(&fn : T -> U | Nil) forall U
+
+        <a class="method-permalink" href="#compact_map%28%26fn%3AT-%3EU%7CNil%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Similar to <code><a href="../Fluxite/PipeOut.html#map%28%26fn%3AT-%3EU%29forallU-instance-method">#map</a></code>, but skips <code>.nil?</code> return values of <em>fn</em> (so <code>false</code>
+is still emitted).</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.compact_map { <span class="o">|</span>x<span class="o">|</span> x.even? ? <span class="s">&quot;</span><span class="i">#{</span>x<span class="i">}</span><span class="s"> even&quot;</span> : <span class="n">nil</span> }.each { <span class="o">|</span>x<span class="o">|</span> p! x }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   x # =&gt; &quot;2 even&quot;</span>
+<span class="c">#   x # =&gt; &quot;4 even&quot;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L157" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="during(gate:IFanout(Bool))-instance-method">
+      <div class="signature">
+        
+        def <strong>during</strong>(gate : <a href="../Fluxite/IFanout.html">IFanout</a>(Bool))
+
+        <a class="method-permalink" href="#during%28gate%3AIFanout%28Bool%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L485" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="each(&amp;fn:T-&gt;)-instance-method">
+      <div class="signature">
+        
+        def <strong>each</strong>(&fn : T -> )
+
+        <a class="method-permalink" href="#each%28%26fn%3AT-%3E%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Attaches a terminal function <em>fn</em> which consumes data but does not emit any.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">100</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">200</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">300</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   x # =&gt; 100</span>
+<span class="c">#   x # =&gt; 200</span>
+<span class="c">#   x # =&gt; 300</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L50" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="forward(cls:U.class,&amp;fn:T,Forward::Feed(U)-&gt;)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>forward</strong>(cls : <span class="t">U</span>.<span class="k">class</span>, &fn : T, Forward::Feed(U) -> ) forall U
+
+        <a class="method-permalink" href="#forward%28cls%3AU.class%2C%26fn%3AT%2CForward%3A%3AFeed%28U%29-%3E%29forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L422" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="gate(*,byother:IFanout(Bool))-instance-method">
+      <div class="signature">
+        
+        def <strong>gate</strong>(*, by other : <a href="../Fluxite/IFanout.html">IFanout</a>(Bool))
+
+        <a class="method-permalink" href="#gate%28%2A%2Cbyother%3AIFanout%28Bool%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L513" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(other:IFanout(U),ascls:U.class):selfforallU-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(other : <a href="../Fluxite/IFanout.html">IFanout</a>(U), as cls : <span class="t">U</span>.<span class="k">class</span>) : <span class="k">self</span> forall U
+
+        <a class="method-permalink" href="#into%28other%3AIFanout%28U%29%2Cascls%3AU.class%29%3AselfforallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(other:IMailbox(T))-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(other : <a href="../Fluxite/IMailbox.html">IMailbox</a>(T))
+
+        <a class="method-permalink" href="#into%28other%3AIMailbox%28T%29%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L2" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(other:IMailbox(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(other : <a href="../Fluxite/IMailbox.html">IMailbox</a>(U)) forall U
+
+        <a class="method-permalink" href="#into%28other%3AIMailbox%28U%29%29forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L6" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(other:IFanout(U),&amp;fn:T-&gt;U):selfforallU-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(other : <a href="../Fluxite/IFanout.html">IFanout</a>(U), &fn : T -> U) : <span class="k">self</span> forall U
+
+        <a class="method-permalink" href="#into%28other%3AIFanout%28U%29%2C%26fn%3AT-%3EU%29%3AselfforallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(&amp;fn:T-&gt;Enumerable(IMailbox(T))):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(&fn : T -> Enumerable(<a href="../Fluxite/IMailbox.html">IMailbox</a>(T))) : Nil
+
+        <a class="method-permalink" href="#into%28%26fn%3AT-%3EEnumerable%28IMailbox%28T%29%29%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="map(&amp;fn:T-&gt;U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>map</strong>(&fn : T -> U) forall U
+
+        <a class="method-permalink" href="#map%28%26fn%3AT-%3EU%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits data transformed using <em>fn</em>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.map(<span class="o">&amp;</span>.chr).each { <span class="o">|</span>ch<span class="o">|</span> p! ch }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">100</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">102</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">103</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   ch # =&gt; &#39;d&#39;</span>
+<span class="c">#   ch # =&gt; &#39;f&#39;</span>
+<span class="c">#   ch # =&gt; &#39;g&#39;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L69" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="map(cls:U.class)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>map</strong>(cls : <span class="t">U</span>.<span class="k">class</span>) forall U
+
+        <a class="method-permalink" href="#map%28cls%3AU.class%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>If <code>U.class</code> responds to <code>[]</code> (treated as a smart constructor), calls <code>U[object]</code>,
+otherwise, calls <code>U.new(object)</code>, where <em>object</em> is each incoming object. Emits
+the resulting instances of <code>U</code>.</p>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">Var</span>
+  <span class="k">def</span> <span class="m">initialize</span>(@id : <span class="t">UInt32</span>)
+  <span class="k">end</span>
+<span class="k">end</span>
+
+xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">UInt32</span>).new
+xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
+xs.map(<span class="t">Var</span>).each { <span class="o">|</span>var<span class="o">|</span> p! var }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">100u32</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">200u32</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">300u32</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   x   # =&gt; 100</span>
+<span class="c">#   var # =&gt; #&lt;Var:0x7f273ed30e70 @id=100&gt;</span>
+<span class="c">#   x   # =&gt; 200</span>
+<span class="c">#   var # =&gt; #&lt;Var:0x7f273ed30e60 @id=200&gt;</span>
+<span class="c">#   x   # =&gt; 300</span>
+<span class="c">#   var # =&gt; #&lt;Var:0x7f273ed30e50 @id=300&gt;</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L99" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="map(*layout:*U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>map</strong>(*layout : <span class="o">*</span><span class="t">U</span>) forall U
+
+        <a class="method-permalink" href="#map%28%2Alayout%3A%2AU%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Similar to <code><a href="../Fluxite/PipeOut.html#map%28cls%3AU.class%29forallU-instance-method">#map(cls : U.class)</a></code>, but performs elementwise conversion as
+described by <em>layout</em>.</p>
+<pre><code class="language-crystal">record <span class="t">Foo</span>, x : <span class="t">Int32</span>
+record <span class="t">Bar</span>, x : <span class="t">String</span>
+record <span class="t">Baz</span>, x : <span class="t">Bool</span>
+
+xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>({<span class="t">Int32</span>, <span class="t">String</span>, <span class="t">Bool</span>}).new
+xs.map(<span class="t">Foo</span>, <span class="t">Bar</span>, <span class="t">Baz</span>).each { <span class="o">|</span>ys<span class="o">|</span> p! ys }
+
+<span class="t">Fluxite</span>.pass(xs, {<span class="n">100</span>, <span class="s">&quot;hello&quot;</span>, <span class="n">true</span>})
+<span class="t">Fluxite</span>.pass(xs, {<span class="n">200</span>, <span class="s">&quot;world&quot;</span>, <span class="n">false</span>})
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   ys # =&gt; {Foo(@x=100), Bar(@x=&quot;hello&quot;), Baz(@x=true)}</span>
+<span class="c">#   ys # =&gt; {Foo(@x=200), Bar(@x=&quot;world&quot;), Baz(@x=false)}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L127" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="only(*args,**kwargs,&amp;fn:T-&gt;Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>only</strong>(*args, **kwargs, &fn : T -> Bool)
+
+        <a class="method-permalink" href="#only%28%2Aargs%2C%2A%2Akwargs%2C%26fn%3AT-%3EBool%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Alias of <code><a href="../Fluxite/PipeOut.html#select%28%26fn%3AT-%3EBool%29-instance-method">#select</a></code> for when you cannot use <code><a href="../Fluxite/PipeOut.html#select%28%26fn%3AT-%3EBool%29-instance-method">#select</a></code> (as it is a Crystal keyword).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L269" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="only(*args,**kwargs)-instance-method">
+      <div class="signature">
+        
+        def <strong>only</strong>(*args, **kwargs)
+
+        <a class="method-permalink" href="#only%28%2Aargs%2C%2A%2Akwargs%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Alias of <code><a href="../Fluxite/PipeOut.html#select%28%26fn%3AT-%3EBool%29-instance-method">#select</a></code> for when you cannot use <code><a href="../Fluxite/PipeOut.html#select%28%26fn%3AT-%3EBool%29-instance-method">#select</a></code> (as it is a Crystal keyword).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L274" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="or(other:IFanout(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>or</strong>(other : <a href="../Fluxite/IFanout.html">IFanout</a>(U)) forall U
+
+        <a class="method-permalink" href="#or%28other%3AIFanout%28U%29%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Combines emission of <code>self</code> and <em>other</em>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Symbol</span>).new
+ys <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+
+xs.or(ys).each { <span class="o">|</span>common<span class="o">|</span> p! common }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">:foo</span>)
+<span class="t">Fluxite</span>.pass(ys, <span class="n">200</span>)
+<span class="t">Fluxite</span>.pass(ys, <span class="n">300</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">:bar</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   common # =&gt; :foo</span>
+<span class="c">#   common # =&gt; 200</span>
+<span class="c">#   common # =&gt; 300</span>
+<span class="c">#   common # =&gt; :bar</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L412" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="partition(&amp;fn:T-&gt;Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>partition</strong>(&fn : T -> Bool)
+
+        <a class="method-permalink" href="#partition%28%26fn%3AT-%3EBool%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates and returns two ports, <em>yay</em> and <em>nay</em>, redirecting those objects
+for which <em>fn</em> returns <code>true</code> to <em>yay</em>; and those objects for which <em>fn</em>
+returns <code>false</code> to <em>nay</em>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+even, odd <span class="o">=</span> xs.partition(<span class="o">&amp;</span>.even?)
+even.each { <span class="o">|</span>even<span class="o">|</span> p! even }
+odd.each { <span class="o">|</span>odd<span class="o">|</span> p! odd }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   odd # =&gt; 1</span>
+<span class="c">#   even # =&gt; 2</span>
+<span class="c">#   odd # =&gt; 3</span>
+<span class="c">#   even # =&gt; 4</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L384" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reject(&amp;fn:T-&gt;Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>reject</strong>(&fn : T -> Bool)
+
+        <a class="method-permalink" href="#reject%28%26fn%3AT-%3EBool%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits only those incoming objects for which <em>fn</em> returns <code>false</code>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.reject(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>odd<span class="o">|</span> p! odd }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   odd # =&gt; 1</span>
+<span class="c">#   odd # =&gt; 3</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L258" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reject(pattern)-instance-method">
+      <div class="signature">
+        
+        def <strong>reject</strong>(pattern)
+
+        <a class="method-permalink" href="#reject%28pattern%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits only those incoming objects that compare <em>not</em> equal to the given
+<em>pattern</em>. Equality is tested using <code>===</code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L264" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="select(&amp;fn:T-&gt;Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>select</strong>(&fn : T -> Bool)
+
+        <a class="method-permalink" href="#select%28%26fn%3AT-%3EBool%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits only those incoming objects for which <em>fn</em> returns <code>true</code>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.<span class="k">select</span>(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>even<span class="o">|</span> p! even }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   even # =&gt; 2</span>
+<span class="c">#   even # =&gt; 4</span></code></pre>
+<p>See also: <code><a href="../Fluxite/PipeOut.html#only%28%2Aargs%2C%2A%2Akwargs%2C%26fn%3AT-%3EBool%29-instance-method">#only</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L202" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="select(ascls:U.class)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>select</strong>(as cls : <span class="t">U</span>.<span class="k">class</span>) forall U
+
+        <a class="method-permalink" href="#select%28ascls%3AU.class%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits incoming objects of type <code>U</code>, casting them to type <code>U</code>. This method
+is particularly useful to narrow down a union type. If type cast is impossible
+the incoming object is ignored.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Symbol</span> <span class="o">|</span> <span class="t">String</span> <span class="o">|</span> <span class="t">Int32</span>).new
+xs.<span class="k">select</span>(<span class="t">Symbol</span>).each { <span class="o">|</span>sym<span class="o">|</span> p! sym }
+xs.<span class="k">select</span>(<span class="t">String</span>).each { <span class="o">|</span>str<span class="o">|</span> p! str }
+xs.<span class="k">select</span>(<span class="t">Int32</span>).each { <span class="o">|</span>int<span class="o">|</span> p! int }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">100</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">:hello</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="s">&quot;world&quot;</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   int # =&gt; 100</span>
+<span class="c">#   sym # =&gt; :hello</span>
+<span class="c">#   str # =&gt; &quot;world&quot;</span></code></pre>
+<p>See also: <code><a href="../Fluxite/PipeOut.html#only%28%2Aargs%2C%2A%2Akwargs%2C%26fn%3AT-%3EBool%29-instance-method">#only</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L227" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="select(pattern)-instance-method">
+      <div class="signature">
+        
+        def <strong>select</strong>(pattern)
+
+        <a class="method-permalink" href="#select%28pattern%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits only those incoming objects that compare equal to the given <em>pattern</em>.
+Equality is tested using <code>===</code>.</p>
+<p>See also: <code><a href="../Fluxite/PipeOut.html#only%28%2Aargs%2C%2A%2Akwargs%2C%26fn%3AT-%3EBool%29-instance-method">#only</a></code>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L239" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="squash(initial:T,&amp;fn:T,T-&gt;Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>squash</strong>(initial : T, &fn : T, T -> Bool)
+
+        <a class="method-permalink" href="#squash%28initial%3AT%2C%26fn%3AT%2CT-%3EBool%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits an incoming object if it is different from the preceding object.
+Optionally, the <em>initial</em> predecessor may be provided. In such case, the
+first incoming object is compared with <em>initial</em>. Otherwise, the first
+object is always emitted.</p>
+<p>Equality of two objects is determined using <em>fn</em>.</p>
+<pre><code class="language-crystal">max <span class="o">=</span> <span class="n">nil</span>
+
+xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.squash { <span class="o">|</span>x, y<span class="o">|</span> x <span class="o">&gt;=</span> y }.each { <span class="o">|</span>n<span class="o">|</span> max <span class="o">=</span> n }
+
+(<span class="n">-100</span>..<span class="n">100</span>).to_a.shuffle!.each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
+  <span class="t">Fluxite</span>.pass(xs, n)
+<span class="k">end</span>
+
+max <span class="c"># =&gt; 100</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L297" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="squash(&amp;fn:T,T-&gt;Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>squash</strong>(&fn : T, T -> Bool)
+
+        <a class="method-permalink" href="#squash%28%26fn%3AT%2CT-%3EBool%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits an incoming object if it is different from the preceding object.
+Optionally, the <em>initial</em> predecessor may be provided. In such case, the
+first incoming object is compared with <em>initial</em>. Otherwise, the first
+object is always emitted.</p>
+<p>Equality of two objects is determined using <em>fn</em>.</p>
+<pre><code class="language-crystal">max <span class="o">=</span> <span class="n">nil</span>
+
+xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.squash { <span class="o">|</span>x, y<span class="o">|</span> x <span class="o">&gt;=</span> y }.each { <span class="o">|</span>n<span class="o">|</span> max <span class="o">=</span> n }
+
+(<span class="n">-100</span>..<span class="n">100</span>).to_a.shuffle!.each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
+  <span class="t">Fluxite</span>.pass(xs, n)
+<span class="k">end</span>
+
+max <span class="c"># =&gt; 100</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L302" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="squash(*args,**kwargs)-instance-method">
+      <div class="signature">
+        
+        def <strong>squash</strong>(*args, **kwargs)
+
+        <a class="method-permalink" href="#squash%28%2Aargs%2C%2A%2Akwargs%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits an incoming object if it is different from the preceding one.</p>
+<p>The objects are compared using <code>==</code>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.squash.each { <span class="o">|</span>x<span class="o">|</span> p! x }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   x # =&gt; 1</span>
+<span class="c">#   x # =&gt; 2</span>
+<span class="c">#   x # =&gt; 3</span>
+<span class="c">#   x # =&gt; 2</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L359" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="squash_by(initial:U,&amp;fn:T-&gt;U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>squash_by</strong>(initial : U, &fn : T -> U) forall U
+
+        <a class="method-permalink" href="#squash_by%28initial%3AU%2C%26fn%3AT-%3EU%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits an incoming object if its return value of <em>fn</em> is different from that
+produced by the preceding object. Optionally, the <em>initial</em> value of <em>fn</em>
+may be provided. In such case, the first incoming object is compared with
+that value. Otherwise, the first object is always emitted.</p>
+<pre><code class="language-crystal"><span class="c"># Do not emit consecutive even numbers.</span>
+xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.squash_by(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>x<span class="o">|</span> p! x }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">5</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">6</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">7</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   x # =&gt; 1</span>
+<span class="c">#   x # =&gt; 2</span>
+<span class="c">#   x # =&gt; 5</span>
+<span class="c">#   x # =&gt; 6</span>
+<span class="c">#   x # =&gt; 7</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L330" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="squash_by(&amp;fn:T-&gt;U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>squash_by</strong>(&fn : T -> U) forall U
+
+        <a class="method-permalink" href="#squash_by%28%26fn%3AT-%3EU%29forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits an incoming object if its return value of <em>fn</em> is different from that
+produced by the preceding object. Optionally, the <em>initial</em> value of <em>fn</em>
+may be provided. In such case, the first incoming object is compared with
+that value. Otherwise, the first object is always emitted.</p>
+<pre><code class="language-crystal"><span class="c"># Do not emit consecutive even numbers.</span>
+xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.squash_by(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>x<span class="o">|</span> p! x }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">5</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">6</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">7</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   x # =&gt; 1</span>
+<span class="c">#   x # =&gt; 2</span>
+<span class="c">#   x # =&gt; 5</span>
+<span class="c">#   x # =&gt; 6</span>
+<span class="c">#   x # =&gt; 7</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L335" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="track(other:IFanout(U),default:U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>track</strong>(other : <a href="../Fluxite/IFanout.html">IFanout</a>(U), default : U) forall U
+
+        <a class="method-permalink" href="#track%28other%3AIFanout%28U%29%2Cdefault%3AU%29forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L465" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="track(other:IFanout(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>track</strong>(other : <a href="../Fluxite/IFanout.html">IFanout</a>(U)) forall U
+
+        <a class="method-permalink" href="#track%28other%3AIFanout%28U%29%29forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L475" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="up_to(&amp;fn:Array(T),T-&gt;Cut)-instance-method">
+      <div class="signature">
+        
+        def <strong>up_to</strong>(&fn : Array(T), T -> <a href="../Fluxite/Cut.html">Cut</a>)
+
+        <a class="method-permalink" href="#up_to%28%26fn%3AArray%28T%29%2CT-%3ECut%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L430" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="up_to(n:Int)-instance-method">
+      <div class="signature">
+        
+        def <strong>up_to</strong>(n : Int)
+
+        <a class="method-permalink" href="#up_to%28n%3AInt%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Emits up to <em>n</em> incoming objects.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/pipeout.cr#L461" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>

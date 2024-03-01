@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.10.1">
+<meta name="crystal_docs.project_version" content="trunk">
+<meta name="crystal_docs.project_name" content="fluxite">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="fluxite">
+  <title>Fluxite::Unit - fluxite trunk</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          fluxite
+        </a>
+      </h1>
+
+      <span class="project-version">
+        trunk
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="fluxite/Fluxite" data-name="fluxite">
+      <a href="../Fluxite.html">Fluxite</a>
+      
+        <ul>
+  
+  <li class=" " data-id="fluxite/Fluxite/BaseMessage" data-name="fluxite::basemessage">
+      <a href="../Fluxite/BaseMessage.html">BaseMessage</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/Cut" data-name="fluxite::cut">
+      <a href="../Fluxite/Cut.html">Cut</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/IFanout" data-name="fluxite::ifanout(t)">
+      <a href="../Fluxite/IFanout.html">IFanout</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/IMailbox" data-name="fluxite::imailbox(t)">
+      <a href="../Fluxite/IMailbox.html">IMailbox</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/Message" data-name="fluxite::message(t)">
+      <a href="../Fluxite/Message.html">Message</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/PipeOut" data-name="fluxite::pipeout(t)">
+      <a href="../Fluxite/PipeOut.html">PipeOut</a>
+      
+    </li>
+  
+  <li class=" " data-id="fluxite/Fluxite/Port" data-name="fluxite::port(t)">
+      <a href="../Fluxite/Port.html">Port</a>
+      
+    </li>
+  
+  <li class=" current" data-id="fluxite/Fluxite/Unit" data-name="fluxite::unit">
+      <a href="../Fluxite/Unit.html">Unit</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Fluxite::<wbr>Unit
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct including types
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Fluxite/Port.html">Fluxite::Port(T)</a></li>
+    
+  </ul>
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/unit.cr#L14" target="_blank">
+        fluxite/unit.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#connect%28a%3AIFanout%28T%29%2C%2A%2Ctob%3AIMailbox%28T%29%29forallT-class-method" class="signature"><strong>.connect</strong>(a : IFanout(T), *, to b : IMailbox(T)) forall T</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#disconnect%28b%3AIMailbox%28T%29%2C%2A%2Cfroma%3AIFanout%28T%29%29forallT-class-method" class="signature"><strong>.disconnect</strong>(b : IMailbox(T), *, from a : IFanout(T)) forall T</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#join%28%2Aunits%29-class-method" class="signature"><strong>.join</strong>(*units)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pass%28unit%3AIFanout%28T%29%2Cobject%3AT%29%3ANilforallT-class-method" class="signature"><strong>.pass</strong>(unit : IFanout(T), object : T) : Nil forall T</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="connect(a:IFanout(T),*,tob:IMailbox(T))forallT-class-method">
+      <div class="signature">
+        
+        def self.<strong>connect</strong>(a : <a href="../Fluxite/IFanout.html">IFanout</a>(T), *, to b : <a href="../Fluxite/IMailbox.html">IMailbox</a>(T)) forall T
+
+        <a class="method-permalink" href="#connect%28a%3AIFanout%28T%29%2C%2A%2Ctob%3AIMailbox%28T%29%29forallT-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/unit.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="disconnect(b:IMailbox(T),*,froma:IFanout(T))forallT-class-method">
+      <div class="signature">
+        
+        def self.<strong>disconnect</strong>(b : <a href="../Fluxite/IMailbox.html">IMailbox</a>(T), *, from a : <a href="../Fluxite/IFanout.html">IFanout</a>(T)) forall T
+
+        <a class="method-permalink" href="#disconnect%28b%3AIMailbox%28T%29%2C%2A%2Cfroma%3AIFanout%28T%29%29forallT-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/unit.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="join(*units)-class-method">
+      <div class="signature">
+        
+        def self.<strong>join</strong>(*units)
+
+        <a class="method-permalink" href="#join%28%2Aunits%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/unit.cr#L15" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pass(unit:IFanout(T),object:T):NilforallT-class-method">
+      <div class="signature">
+        
+        def self.<strong>pass</strong>(unit : <a href="../Fluxite/IFanout.html">IFanout</a>(T), object : T) : Nil forall T
+
+        <a class="method-permalink" href="#pass%28unit%3AIFanout%28T%29%2Cobject%3AT%29%3ANilforallT-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/a75da03c4dfa9c0fe115d7dffb57959fc8567036/src/fluxite/unit.cr#L29" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
