@@ -528,7 +528,7 @@ module Fluxite::PipeOut(T)
   #
   # names
   #   .track(ages, professions)
-  #   .each { |name, age, profession| p!({ name, age, profession})  }
+  #   .each { |name, age, profession| p!({name, age, profession}) }
   #
   # Fluxite.pass(ages, 25)
   # Fluxite.pass(names, "John Doe")
@@ -557,8 +557,8 @@ module Fluxite::PipeOut(T)
   # professions = Fluxite::Port(String).new
   #
   # names
-  #   .track(ages, { from: professions, default: "unspecified" })
-  #   .each { |name, age, profession| p!({ name, age, profession})  }
+  #   .track(ages, {from: professions, default: "unspecified"})
+  #   .each { |name, age, profession| p!({name, age, profession}) }
   #
   # # For consistency you may write the above as:
   # # name

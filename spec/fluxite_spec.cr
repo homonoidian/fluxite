@@ -349,7 +349,7 @@ describe Fluxite do
     log = [] of {String, Int32, Bool, Float64, Int32 | String}
 
     m
-      .track(s1, { from: s2, default: false }, { from: s3 }, { from: s4, default: "xyzzy" })
+      .track(s1, {from: s2, default: false}, {from: s3}, {from: s4, default: "xyzzy"})
       .each { |a, b, c, d, e| log << {a, b, c, d, e} }
 
     Fluxite.pass(s3, 123.456)
@@ -361,7 +361,7 @@ describe Fluxite do
 
     assert log == [
       {"hello world", 400, false, 123.456, "xyzzy"},
-      {"foobar", 400, false, 123.456, "xyzzy"}
+      {"foobar", 400, false, 123.456, "xyzzy"},
     ]
 
     Fluxite.pass(s2, true)
@@ -370,7 +370,7 @@ describe Fluxite do
     assert log == [
       {"hello world", 400, false, 123.456, "xyzzy"},
       {"foobar", 400, false, 123.456, "xyzzy"},
-      {"foobaz", 400, true, 123.456, "xyzzy"}
+      {"foobaz", 400, true, 123.456, "xyzzy"},
     ]
 
     Fluxite.pass(s4, "baz")
