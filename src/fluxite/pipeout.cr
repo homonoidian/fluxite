@@ -70,15 +70,11 @@ module Fluxite::PipeOut(T)
     into Map(T, U).new(fn)
   end
 
-  # If `U.class` responds to `[]` (treated as a smart constructor), calls `U[object]`,
-  # otherwise, calls `U.new(object)`, where *object* is each incoming object. Emits
-  # the resulting instances of `U`.
+  # If `U.class` responds to `[]` (treated as a smart constructor), emits `U[object]`,
+  # otherwise, emits `U.new(object)`, where *object* is each incoming object.
   #
   # ```
-  # class Var
-  #   def initialize(@id : UInt32)
-  #   end
-  # end
+  # record Var, id : UInt32
   #
   # xs = Fluxite::Port(UInt32).new
   # xs.each { |x| p! x }
@@ -90,11 +86,11 @@ module Fluxite::PipeOut(T)
   #
   # # STDOUT:
   # #   x   # => 100
-  # #   var # => #<Var:0x7f273ed30e70 @id=100>
+  # #   var # => Var(@id=100)
   # #   x   # => 200
-  # #   var # => #<Var:0x7f273ed30e60 @id=200>
+  # #   var # => Var(@id=200)
   # #   x   # => 300
-  # #   var # => #<Var:0x7f273ed30e50 @id=300>
+  # #   var # => Var(@id=300)
   # ```
   def map(cls : U.class) forall U
     map do |object|
@@ -126,16 +122,16 @@ module Fluxite::PipeOut(T)
   # ```
   def map(*layout : *U) forall U
     {% begin %}
-        map do |tuple|
-          { {% for cls, index in U %}
-              {% if cls.has_method?(:[]) %}
-                {{cls.instance}}[tuple[{{index}}]],
-              {% else %}
-                {{cls.instance}}.new(tuple[{{index}}]),
-              {% end %}
-            {% end %} }
-        end
-      {% end %}
+      map do |tuple|
+        { {% for cls, index in U %}
+            {% if cls.has_method?(:[]) %}
+              {{cls.instance}}[tuple[{{index}}]],
+            {% else %}
+              {{cls.instance}}.new(tuple[{{index}}]),
+            {% end %}
+          {% end %} }
+      end
+    {% end %}
   end
 
   # Similar to `map`, but skips `.nil?` return values of *fn* (so `false`
