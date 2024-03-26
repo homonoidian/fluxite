@@ -16,7 +16,7 @@ module Fluxite
     Port(T).new
   end
 
-  def self.port(intype : T.class) forall T
+  def self.port(intype : T.class, & : Port(T) ->) forall T
     yield head = Port(T).new
     head
   end

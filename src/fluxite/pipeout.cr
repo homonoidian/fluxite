@@ -24,10 +24,10 @@ module Fluxite::PipeOut(T)
   end
 
   def into(&fn : T -> Enumerable(IMailbox(T))) : Nil
-    forward(T) do |datum, feed|
-      receivers = fn.call(datum)
+    forward(T) do |object, feed|
+      receivers = fn.call(object)
       receivers.each do |receiver|
-        feed.call(receiver, datum)
+        feed.call(receiver, object)
       end
     end
   end
