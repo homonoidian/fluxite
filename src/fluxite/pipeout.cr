@@ -32,15 +32,66 @@ module Fluxite::PipeOut(T)
     end
   end
 
+  # Transforms incoming objects using *fn* and appends them to *receiver*.
+  #
+  # *receiver* must respond to `<<(object)` where *object* is the result of *fn*.
+  # So all of `IO`, `Array`, `Set`, `Deque` etc. are supported by this method.
+  #
+  # ```
+  # squares = [] of Int32
+  #
+  # xs = Fluxite::Port(Int32).new
+  # xs.select(&.even?).into(squares) { |n| n ** 2 }
+  #
+  # Fluxite[xs, 1]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 3]
+  # Fluxite[xs, 4]
+  #
+  # p! squares
+  #
+  # # STDOUT:
+  # #   squares # => [4, 16]
+  # ```
+  def into(receiver, &fn : T -> U) : Nil forall T, U
+    each { |object| receiver << fn.call(object) }
+  end
+
+  # Appends incoming objects to *receiver*.
+  #
+  # *receiver* must respond to `<<(object)` where *object* the incoming object.
+  # So all of `IO`, `Array`, `Set`, `Deque` etc. are supported by this method.
+  #
+  # ```
+  # cubes = [] of Int32
+  #
+  # xs = Fluxite::Port(Int32).new
+  # xs.select(&.odd?).map { |n| n ** 3 }.into(cubes)
+  #
+  # Fluxite[xs, 1]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 3]
+  # Fluxite[xs, 4]
+  # Fluxite[xs, 5]
+  #
+  # p! cubes
+  #
+  # # STDOUT:
+  # #   cubes # => [1, 27, 125]
+  # ```
+  def into(receiver) : Nil
+    into(receiver, &.itself)
+  end
+
   # Attaches a terminal function *fn* which consumes data but does not emit any.
   #
   # ```
   # xs = Fluxite::Port(Int32).new
   # xs.each { |x| p! x }
   #
-  # Fluxite.pass(xs, 100)
-  # Fluxite.pass(xs, 200)
-  # Fluxite.pass(xs, 300)
+  # Fluxite[xs, 100]
+  # Fluxite[xs, 200]
+  # Fluxite[xs, 300]
   #
   # # STDOUT:
   # #   x # => 100
@@ -57,9 +108,9 @@ module Fluxite::PipeOut(T)
   # xs = Port(Int32).new
   # xs.map(&.chr).each { |ch| p! ch }
   #
-  # Fluxite.pass(xs, 100)
-  # Fluxite.pass(xs, 102)
-  # Fluxite.pass(xs, 103)
+  # Fluxite[xs, 100]
+  # Fluxite[xs, 102]
+  # Fluxite[xs, 103]
   #
   # # STDOUT:
   # #   ch # => 'd'
@@ -80,9 +131,9 @@ module Fluxite::PipeOut(T)
   # xs.each { |x| p! x }
   # xs.map(Var).each { |var| p! var }
   #
-  # Fluxite.pass(xs, 100u32)
-  # Fluxite.pass(xs, 200u32)
-  # Fluxite.pass(xs, 300u32)
+  # Fluxite[xs, 100u32]
+  # Fluxite[xs, 200u32]
+  # Fluxite[xs, 300u32]
   #
   # # STDOUT:
   # #   x   # => 100
@@ -113,8 +164,8 @@ module Fluxite::PipeOut(T)
   # xs = Fluxite::Port({Int32, String, Bool}).new
   # xs.map(Foo, Bar, Baz).each { |ys| p! ys }
   #
-  # Fluxite.pass(xs, {100, "hello", true})
-  # Fluxite.pass(xs, {200, "world", false})
+  # Fluxite[xs, {100, "hello", true}]
+  # Fluxite[xs, {200, "world", false}]
   #
   # # STDOUT:
   # #   ys # => {Foo(@x=100), Bar(@x="hello"), Baz(@x=true)}
@@ -141,10 +192,10 @@ module Fluxite::PipeOut(T)
   # xs = Fluxite::Port(Int32).new
   # xs.compact_map { |x| x.even? ? "#{x} even" : nil }.each { |x| p! x }
   #
-  # Fluxite.pass(xs, 1)
-  # Fluxite.pass(xs, 2)
-  # Fluxite.pass(xs, 3)
-  # Fluxite.pass(xs, 4)
+  # Fluxite[xs, 1]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 3]
+  # Fluxite[xs, 4]
   #
   # # STDOUT:
   # #   x # => "2 even"
@@ -161,7 +212,7 @@ module Fluxite::PipeOut(T)
   # xs = Fluxite::Port(String).new
   # xs.blast(&.chars).squash.each { |ch| p! ch }
   #
-  # Fluxite.pass(xs, "helloo")
+  # Fluxite[xs, "helloo"]
   #
   # # STDOUT:
   # #   ch # => 'h'
@@ -184,10 +235,10 @@ module Fluxite::PipeOut(T)
   # xs = Fluxite::Port(Int32).new
   # xs.select(&.even?).each { |even| p! even }
   #
-  # Fluxite.pass(xs, 1)
-  # Fluxite.pass(xs, 2)
-  # Fluxite.pass(xs, 3)
-  # Fluxite.pass(xs, 4)
+  # Fluxite[xs, 1]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 3]
+  # Fluxite[xs, 4]
   #
   # # STDOUT:
   # #   even # => 2
@@ -209,9 +260,9 @@ module Fluxite::PipeOut(T)
   # xs.select(String).each { |str| p! str }
   # xs.select(Int32).each { |int| p! int }
   #
-  # Fluxite.pass(xs, 100)
-  # Fluxite.pass(xs, :hello)
-  # Fluxite.pass(xs, "world")
+  # Fluxite[xs, 100]
+  # Fluxite[xs, :hello]
+  # Fluxite[xs, "world"]
   #
   # # STDOUT:
   # #   int # => 100
@@ -242,10 +293,10 @@ module Fluxite::PipeOut(T)
   # xs = Fluxite::Port(Int32).new
   # xs.reject(&.even?).each { |odd| p! odd }
   #
-  # Fluxite.pass(xs, 1)
-  # Fluxite.pass(xs, 2)
-  # Fluxite.pass(xs, 3)
-  # Fluxite.pass(xs, 4)
+  # Fluxite[xs, 1]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 3]
+  # Fluxite[xs, 4]
   #
   # # STDOUT:
   # #   odd # => 1
@@ -285,7 +336,7 @@ module Fluxite::PipeOut(T)
   # xs.squash { |x, y| x >= y }.each { |n| max = n }
   #
   # (-100..100).to_a.shuffle!.each do |n|
-  #   Fluxite.pass(xs, n)
+  #   Fluxite[xs, n]
   # end
   #
   # max # => 100
@@ -309,12 +360,12 @@ module Fluxite::PipeOut(T)
   # xs = Fluxite::Port(Int32).new
   # xs.squash_by(&.even?).each { |x| p! x }
   #
-  # Fluxite.pass(xs, 1)
-  # Fluxite.pass(xs, 2)
-  # Fluxite.pass(xs, 4)
-  # Fluxite.pass(xs, 5)
-  # Fluxite.pass(xs, 6)
-  # Fluxite.pass(xs, 7)
+  # Fluxite[xs, 1]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 4]
+  # Fluxite[xs, 5]
+  # Fluxite[xs, 6]
+  # Fluxite[xs, 7]
   #
   # # STDOUT:
   # #   x # => 1
@@ -340,11 +391,11 @@ module Fluxite::PipeOut(T)
   # xs = Fluxite::Port(Int32).new
   # xs.squash.each { |x| p! x }
   #
-  # Fluxite.pass(xs, 1)
-  # Fluxite.pass(xs, 2)
-  # Fluxite.pass(xs, 2)
-  # Fluxite.pass(xs, 3)
-  # Fluxite.pass(xs, 2)
+  # Fluxite[xs, 1]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 3]
+  # Fluxite[xs, 2]
   #
   # # STDOUT:
   # #   x # => 1
@@ -366,10 +417,10 @@ module Fluxite::PipeOut(T)
   # even.each { |even| p! even }
   # odd.each { |odd| p! odd }
   #
-  # Fluxite.pass(xs, 1)
-  # Fluxite.pass(xs, 2)
-  # Fluxite.pass(xs, 3)
-  # Fluxite.pass(xs, 4)
+  # Fluxite[xs, 1]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 3]
+  # Fluxite[xs, 4]
   #
   # # STDOUT:
   # #   odd # => 1
@@ -394,10 +445,10 @@ module Fluxite::PipeOut(T)
   #
   # xs.or(ys).each { |common| p! common }
   #
-  # Fluxite.pass(xs, :foo)
-  # Fluxite.pass(ys, 200)
-  # Fluxite.pass(ys, 300)
-  # Fluxite.pass(xs, :bar)
+  # Fluxite[xs, :foo]
+  # Fluxite[ys, 200]
+  # Fluxite[ys, 300]
+  # Fluxite[xs, :bar]
   #
   # # STDOUT:
   # #   common # => :foo
@@ -437,13 +488,13 @@ module Fluxite::PipeOut(T)
   # xs = Fluxite::Port(Int32).new
   # xs.batch(3).each { |triple| p! triple }
   #
-  # Fluxite.pass(xs, 1)
-  # Fluxite.pass(xs, 2)
-  # Fluxite.pass(xs, 3)
-  # Fluxite.pass(xs, 4)
-  # Fluxite.pass(xs, 5)
-  # Fluxite.pass(xs, 6)
-  # Fluxite.pass(xs, 7)
+  # Fluxite[xs, 1]
+  # Fluxite[xs, 2]
+  # Fluxite[xs, 3]
+  # Fluxite[xs, 4]
+  # Fluxite[xs, 5]
+  # Fluxite[xs, 6]
+  # Fluxite[xs, 7]
   #
   # # STDOUT:
   # #   triple # => [1, 2, 3]
@@ -502,20 +553,20 @@ module Fluxite::PipeOut(T)
 
   # Tracks multiple values simultaneously as described by *layout*.
   #
-  # Remember: tracking is for when you have a master pipeout and a few pipeouts that
+  # Remember: tracking is for when you have a master unit and a few units that
   # the master's emission should be combined with, and you want to know their most up
-  # to date values. In other words, `track` quietly tracks the pipeouts, and emits when
-  # the master pipeout emits.
+  # to date values. In other words, `track` quietly tracks the units, and emits when
+  # the master unit emits.
   #
   # Layout can feature any combination of the following:
   #
-  # - A pipeout of any type (e.g. `track(xs.select(&.even?), ys.reject(&.odd?))`)
-  # - A spec for a pipeout with a default value (e.g. `track({ from: xs.select(&.even?), default: 2 }, { from: ys.select(&.odd?), default: 3 })`)
-  # - A spec for a pipeout without a default value (e.g. `track({ from: xs.select(&.even?) }, { from: ys.select(&.odd?) })`),
-  #   allowed mostly for consistency (when some pipeouts have defaults and some don't, it's
+  # - A unit of any type (e.g. `track(xs.select(&.even?), ys.reject(&.odd?))`)
+  # - A spec for a unit with a default value (e.g. `track({ from: xs.select(&.even?), default: 2 }, { from: ys.select(&.odd?), default: 3 })`)
+  # - A spec for a unit without a default value (e.g. `track({ from: xs.select(&.even?) }, { from: ys.select(&.odd?) })`),
+  #   allowed mostly for consistency (when some units have defaults and some don't, it's
   #   recommended to use this form).
   #
-  # Using raw pipeout (will have to wait until all of age, profession arrive):
+  # Using raw unit (will have to wait until all of age, profession arrive):
   #
   # ```
   # names = Fluxite::Port(String).new
@@ -526,26 +577,26 @@ module Fluxite::PipeOut(T)
   #   .track(ages, professions)
   #   .each { |name, age, profession| p!({name, age, profession}) }
   #
-  # Fluxite.pass(ages, 25)
-  # Fluxite.pass(names, "John Doe")
-  # Fluxite.pass(professions, "programmer")
+  # Fluxite[ages, 25]
+  # Fluxite[names, "John Doe"]
+  # Fluxite[professions, "programmer"]
   #
   # # STDOUT:
   # #   {name, age, profession} # => {"John Doe", 25, "programmer"}
   #
-  # Fluxite.pass(profession, "gardener")
-  # Fluxite.pass(age, 32)
+  # Fluxite[profession, "gardener"]
+  # Fluxite[age, 32]
   #
   # # Prints nothing. `age` and `profession` are quietly tracked by `name`,
   # # to get their freshest values when `name` changes.
   #
-  # Fluxite.pass(names, "Susan Doe")
+  # Fluxite[names, "Susan Doe"]
   #
   # # STDOUT:
   # #   {name, age, profession} # => {"Susan Doe", 32, "gardener"}
   # ```
   #
-  # Specifying a default value to be used before a tracked pipeout emits:
+  # Specifying a default value to be used before a tracked unit emits:
   #
   # ```
   # names = Fluxite::Port(String).new
@@ -563,18 +614,18 @@ module Fluxite::PipeOut(T)
   # #     { from: professions, default: "unspecified" })
   # #   .each { |name, age, profession| p!({ name, age, profession })
   #
-  # Fluxite.pass(ages, 25)
-  # Fluxite.pass(names, "John Doe")
+  # Fluxite[ages, 25]
+  # Fluxite[names, "John Doe"]
   #
   # # STDOUT:
   # #   {name, age, profession} # => {"John Doe", 25, "unspecified"}
   #
-  # Fluxite.pass(professions, "writer")
+  # Fluxite[professions, "writer"]
   #
   # # Again, prints nothing. We've used the default value. Now a new `name`
   # # must arrive before we register the new profession.
   #
-  # Fluxite.pass(names, "Mark Stephenson")
+  # Fluxite[names, "Mark Stephenson"]
   #
   # # STDOUT:
   # #   {name, age, profession} # => {"Mark Stephenson", 25, "writer"}

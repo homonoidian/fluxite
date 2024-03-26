@@ -1,6 +1,21 @@
 require "./spec_helper"
 
 describe Fluxite do
+  test "port constructors" do
+    assert Fluxite.port(Int32).is_a?(Fluxite::Port(Int32))
+    assert Fluxite.port({Int32, String}).is_a?(Fluxite::Port({Int32, String}))
+
+    ys = [] of Int32
+    xs = Fluxite.port(Int32, &.select(&.even?).into(ys))
+
+    Fluxite[xs, 1]
+    Fluxite[xs, 2]
+    Fluxite[xs, 3]
+    Fluxite[xs, 4]
+
+    assert ys == [2, 4]
+  end
+
   test "#each" do
     o = Port(Int32).new
 
@@ -8,9 +23,9 @@ describe Fluxite do
 
     o.each { |n| log << n }
 
-    Fluxite.pass(o, 100)
-    Fluxite.pass(o, 200)
-    Fluxite.pass(o, 300)
+    Fluxite[o, 100]
+    Fluxite[o, 200]
+    Fluxite[o, 300]
 
     assert log == [100, 200, 300]
   end
@@ -20,12 +35,12 @@ describe Fluxite do
 
     log = [] of {Symbol, Int32 | String}
 
-    o.map(&.succ.to_s).each { |n| log << {:succ, n} }
-    o.map(&.pred).each { |n| log << {:pred, n} }
-    o.each { |n| log << {:each, n} }
+    o.map(&.succ.to_s).into(log) { |n| {:succ, n} }
+    o.map(&.pred).into(log) { |n| {:pred, n} }
+    o.into(log) { |n| {:each, n} }
 
-    Fluxite.pass(o, 100)
-    Fluxite.pass(o, 200)
+    Fluxite[o, 100]
+    Fluxite[o, 200]
 
     assert log == [{:each, 100}, {:succ, "101"}, {:pred, 99}, {:each, 200}, {:succ, "201"}, {:pred, 199}]
   end
@@ -52,8 +67,8 @@ describe Fluxite do
     o.map(X).each { |x| log << x }
     o.map(Y).each { |y| log << y }
 
-    Fluxite.pass(o, 100)
-    Fluxite.pass(o, 200)
+    Fluxite[o, 100]
+    Fluxite[o, 200]
 
     assert log == [X.new(100), Y.new("100"), X.new(200), Y.new("200")]
   end
@@ -65,11 +80,11 @@ describe Fluxite do
 
     o.map(X, Y).each { |x| log << x }
 
-    Fluxite.pass(o, [100, 200, 300])
+    Fluxite[o, [100, 200, 300]]
 
     assert log == [{X.new(100), Y.new("200")}]
 
-    assert_raises(IndexError) { Fluxite.pass(o, [100]) }
+    assert_raises(IndexError) { Fluxite[o, [100]] }
 
     assert log == [{X.new(100), Y.new("200")}]
   end
@@ -85,8 +100,8 @@ describe Fluxite do
     o1.each { |n| log << {:o1, n} }
     o2.each { |n| log << {:o2, n} }
 
-    Fluxite.pass(o1, 100)
-    Fluxite.pass(o2, 200)
+    Fluxite[o1, 100]
+    Fluxite[o2, 200]
 
     assert log == [{:o1, 100}, {:o2, 100}, {:o2, 200}]
   end
@@ -102,10 +117,33 @@ describe Fluxite do
     o1.each { |n| log << {:o1, n} }
     o2.each { |n| log << {:o2, n} }
 
-    Fluxite.pass(o1, 100)
-    Fluxite.pass(o2, "hello world")
+    Fluxite[o1, 100]
+    Fluxite[o2, "hello world"]
 
     assert log == [{:o1, 100}, {:o2, "n=100"}, {:o2, "hello world"}]
+  end
+
+  test "#into append" do
+    squares = [] of Int32
+
+    xs = Fluxite.port(Int32, &.select(&.even?).into(squares) { |n| n ** 2 })
+
+    Fluxite[xs, 1]
+    Fluxite[xs, 2]
+    Fluxite[xs, 3]
+    Fluxite[xs, 4]
+
+    cubes = [] of Int32
+
+    ys = Fluxite.port(Int32, &.select(&.odd?).map { |n| n ** 3 }.into(cubes))
+
+    Fluxite[ys, 1]
+    Fluxite[ys, 2]
+    Fluxite[ys, 3]
+    Fluxite[ys, 4]
+    Fluxite[ys, 5]
+
+    assert cubes == [1, 27, 125]
   end
 
   test "#blast" do
@@ -115,8 +153,8 @@ describe Fluxite do
 
     o.blast { |x| x.chars.as(Enumerable(Char)) }.each { |ch| log << ch }
 
-    Fluxite.pass(o, "hello")
-    Fluxite.pass(o, "world")
+    Fluxite[o, "hello"]
+    Fluxite[o, "world"]
 
     assert log == ['h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd']
   end
@@ -129,12 +167,12 @@ describe Fluxite do
     o.select(&.even?).each { |n| log << {:even, n} }
     o.reject(&.even?).each { |n| log << {:odd, n} }
 
-    Fluxite.pass(o, 0)
-    Fluxite.pass(o, 1)
-    Fluxite.pass(o, 2)
-    Fluxite.pass(o, 3)
-    Fluxite.pass(o, 4)
-    Fluxite.pass(o, 5)
+    Fluxite[o, 0]
+    Fluxite[o, 1]
+    Fluxite[o, 2]
+    Fluxite[o, 3]
+    Fluxite[o, 4]
+    Fluxite[o, 5]
 
     assert log == [{:even, 0}, {:odd, 1}, {:even, 2}, {:odd, 3}, {:even, 4}, {:odd, 5}]
   end
@@ -147,11 +185,11 @@ describe Fluxite do
     o.select(String).each { |n| log << {:s, n} }
     o.select(Int32).each { |n| log << {:i32, n} }
 
-    Fluxite.pass(o, 0)
-    Fluxite.pass(o, "foo")
-    Fluxite.pass(o, 2)
-    Fluxite.pass(o, "bar")
-    Fluxite.pass(o, "baz")
+    Fluxite[o, 0]
+    Fluxite[o, "foo"]
+    Fluxite[o, 2]
+    Fluxite[o, "bar"]
+    Fluxite[o, "baz"]
 
     assert log == [{:i32, 0}, {:s, "foo"}, {:i32, 2}, {:s, "bar"}, {:s, "baz"}]
   end
@@ -164,7 +202,7 @@ describe Fluxite do
     o.squash { |a, b| a < b }.each { |n| last = n }
 
     (-100..100).to_a.shuffle!.each do |n|
-      Fluxite.pass(o, n)
+      Fluxite[o, n]
     end
 
     assert last == -100
@@ -177,14 +215,14 @@ describe Fluxite do
 
     o.squash.each { |n| log << n }
 
-    Fluxite.pass(o, 1)
-    Fluxite.pass(o, 2)
-    Fluxite.pass(o, 3)
-    Fluxite.pass(o, 3)
-    Fluxite.pass(o, 4)
-    Fluxite.pass(o, 10)
-    Fluxite.pass(o, 4)
-    Fluxite.pass(o, 1)
+    Fluxite[o, 1]
+    Fluxite[o, 2]
+    Fluxite[o, 3]
+    Fluxite[o, 3]
+    Fluxite[o, 4]
+    Fluxite[o, 10]
+    Fluxite[o, 4]
+    Fluxite[o, 1]
 
     assert log == [1, 2, 3, 4, 10, 4, 1]
   end
@@ -200,10 +238,10 @@ describe Fluxite do
       odd.map { |n| {:odd, n} }
     ).each { |x| log << x }
 
-    Fluxite.pass(o, 1)
-    Fluxite.pass(o, 2)
-    Fluxite.pass(o, 3)
-    Fluxite.pass(o, 4)
+    Fluxite[o, 1]
+    Fluxite[o, 2]
+    Fluxite[o, 3]
+    Fluxite[o, 4]
 
     assert log == [{:odd, 1}, {:even, 2}, {:odd, 3}, {:even, 4}]
   end
@@ -216,7 +254,7 @@ describe Fluxite do
     o.forward(Char) { |s, send| s.chars.each { |ch| send.call(ch) } }
       .each { |ch| log << ch }
 
-    Fluxite.pass(o, "hello")
+    Fluxite[o, "hello"]
 
     assert log == ['h', 'e', 'l', 'l', 'o']
   end
@@ -229,13 +267,13 @@ describe Fluxite do
 
     a.track(b).each { |(x, y)| log << {x, y} }
 
-    Fluxite.pass(a, 100)
-    Fluxite.pass(b, "Hello World")
-    Fluxite.pass(a, 200)
-    Fluxite.pass(a, 300)
-    Fluxite.pass(b, "Foo bar")
-    Fluxite.pass(b, "Bar baz")
-    Fluxite.pass(a, 123)
+    Fluxite[a, 100]
+    Fluxite[b, "Hello World"]
+    Fluxite[a, 200]
+    Fluxite[a, 300]
+    Fluxite[b, "Foo bar"]
+    Fluxite[b, "Bar baz"]
+    Fluxite[a, 123]
 
     assert log == [{100, "Hello World"}, {200, "Hello World"}, {300, "Hello World"}, {123, "Bar baz"}]
   end
@@ -248,13 +286,13 @@ describe Fluxite do
 
     a.track(b).each { |(x, y)| log << {x, y} }
 
-    Fluxite.pass(b, "hello world")
-    Fluxite.pass(b, "foo bar")
-    Fluxite.pass(a, 123)
-    Fluxite.pass(a, 456)
-    Fluxite.pass(b, "baz")
-    Fluxite.pass(a, 200)
-    Fluxite.pass(b, "bam")
+    Fluxite[b, "hello world"]
+    Fluxite[b, "foo bar"]
+    Fluxite[a, 123]
+    Fluxite[a, 456]
+    Fluxite[b, "baz"]
+    Fluxite[a, 200]
+    Fluxite[b, "bam"]
 
     assert log == [{123, "foo bar"}, {456, "foo bar"}, {200, "baz"}]
   end
@@ -267,11 +305,11 @@ describe Fluxite do
 
     a.track(b, default: "hello world").each { |(x, y)| log << {x, y} }
 
-    Fluxite.pass(a, 100)
-    Fluxite.pass(a, 200)
-    Fluxite.pass(b, "foobar")
-    Fluxite.pass(b, "baz")
-    Fluxite.pass(a, 123)
+    Fluxite[a, 100]
+    Fluxite[a, 200]
+    Fluxite[b, "foobar"]
+    Fluxite[b, "baz"]
+    Fluxite[a, 123]
 
     assert log == [{100, "hello world"}, {200, "hello world"}, {123, "baz"}]
   end
@@ -284,12 +322,12 @@ describe Fluxite do
 
     a.track(b, default: "hello world").each { |(x, y)| log << {x, y} }
 
-    Fluxite.pass(b, "foobar")
-    Fluxite.pass(a, 123)
-    Fluxite.pass(a, 456)
-    Fluxite.pass(b, "baz")
-    Fluxite.pass(b, "bam")
-    Fluxite.pass(a, 100)
+    Fluxite[b, "foobar"]
+    Fluxite[a, 123]
+    Fluxite[a, 456]
+    Fluxite[b, "baz"]
+    Fluxite[b, "bam"]
+    Fluxite[a, 100]
 
     assert log == [{123, "foobar"}, {456, "foobar"}, {100, "bam"}]
   end
@@ -302,12 +340,12 @@ describe Fluxite do
 
     a.track(b).each { |(x, y)| log << {x, y} }
 
-    Fluxite.pass(b, 1)
-    Fluxite.pass(a, 123)
-    Fluxite.pass(a, 456)
-    Fluxite.pass(b, 2)
-    Fluxite.pass(b, 3)
-    Fluxite.pass(a, 100)
+    Fluxite[b, 1]
+    Fluxite[a, 123]
+    Fluxite[a, 456]
+    Fluxite[b, 2]
+    Fluxite[b, 3]
+    Fluxite[a, 100]
 
     assert log == [{123, 1}, {456, 1}, {100, 3}]
   end
@@ -322,20 +360,20 @@ describe Fluxite do
 
     m.track(s1, s2, s3).each { |a, b, c, d| log << {a, b, c, d} }
 
-    Fluxite.pass(s1, 123)
-    Fluxite.pass(m, "hello world")
-    Fluxite.pass(m, "bye world")
-    Fluxite.pass(s2, false)
-    Fluxite.pass(s3, 123.456)
+    Fluxite[s1, 123]
+    Fluxite[m, "hello world"]
+    Fluxite[m, "bye world"]
+    Fluxite[s2, false]
+    Fluxite[s3, 123.456]
     assert log == [{"bye world", 123, false, 123.456}]
 
-    Fluxite.pass(s2, true)
-    Fluxite.pass(s1, 456)
-    Fluxite.pass(m, "foobar")
+    Fluxite[s2, true]
+    Fluxite[s1, 456]
+    Fluxite[m, "foobar"]
     assert log == [{"bye world", 123, false, 123.456}, {"foobar", 456, true, 123.456}]
 
-    Fluxite.pass(s3, 10.123)
-    Fluxite.pass(m, "baz")
+    Fluxite[s3, 10.123]
+    Fluxite[m, "baz"]
     assert log == [{"bye world", 123, false, 123.456}, {"foobar", 456, true, 123.456}, {"baz", 456, true, 10.123}]
   end
 
@@ -352,20 +390,20 @@ describe Fluxite do
       .track(s1, {from: s2, default: false}, {from: s3}, {from: s4, default: "xyzzy"})
       .each { |a, b, c, d, e| log << {a, b, c, d, e} }
 
-    Fluxite.pass(s3, 123.456)
-    Fluxite.pass(s1, 400)
-    Fluxite.pass(m, "hello world")
+    Fluxite[s3, 123.456]
+    Fluxite[s1, 400]
+    Fluxite[m, "hello world"]
     assert log == [{"hello world", 400, false, 123.456, "xyzzy"}]
 
-    Fluxite.pass(m, "foobar")
+    Fluxite[m, "foobar"]
 
     assert log == [
       {"hello world", 400, false, 123.456, "xyzzy"},
       {"foobar", 400, false, 123.456, "xyzzy"},
     ]
 
-    Fluxite.pass(s2, true)
-    Fluxite.pass(m, "foobaz")
+    Fluxite[s2, true]
+    Fluxite[m, "foobaz"]
 
     assert log == [
       {"hello world", 400, false, 123.456, "xyzzy"},
@@ -373,8 +411,8 @@ describe Fluxite do
       {"foobaz", 400, true, 123.456, "xyzzy"},
     ]
 
-    Fluxite.pass(s4, "baz")
-    Fluxite.pass(m, "bye world")
+    Fluxite[s4, "baz"]
+    Fluxite[m, "bye world"]
 
     assert log == [
       {"hello world", 400, false, 123.456, "xyzzy"},
@@ -383,9 +421,9 @@ describe Fluxite do
       {"bye world", 400, true, 123.456, "baz"},
     ]
 
-    Fluxite.pass(s4, 456)
-    Fluxite.pass(s3, 10.234)
-    Fluxite.pass(m, "foobar")
+    Fluxite[s4, 456]
+    Fluxite[s3, 10.234]
+    Fluxite[m, "foobar"]
 
     assert log == [
       {"hello world", 400, false, 123.456, "xyzzy"},
@@ -404,15 +442,15 @@ describe Fluxite do
 
     a.during(b).each { |n| log << n }
 
-    Fluxite.pass(a, 100)
-    Fluxite.pass(b, false)
-    Fluxite.pass(a, 200)
-    Fluxite.pass(b, true)
-    Fluxite.pass(a, 300)
-    Fluxite.pass(a, 400)
-    Fluxite.pass(a, 500)
-    Fluxite.pass(b, false)
-    Fluxite.pass(a, 600)
+    Fluxite[a, 100]
+    Fluxite[b, false]
+    Fluxite[a, 200]
+    Fluxite[b, true]
+    Fluxite[a, 300]
+    Fluxite[a, 400]
+    Fluxite[a, 500]
+    Fluxite[b, false]
+    Fluxite[a, 600]
 
     assert log == [300, 400, 500]
   end
@@ -425,12 +463,12 @@ describe Fluxite do
 
     a.before(b).each { |n| log << n }
 
-    Fluxite.pass(a, 100)
-    Fluxite.pass(a, 200)
-    Fluxite.pass(b, "hello world")
-    Fluxite.pass(a, 300)
-    Fluxite.pass(b, "bye world")
-    Fluxite.pass(a, 400)
+    Fluxite[a, 100]
+    Fluxite[a, 200]
+    Fluxite[b, "hello world"]
+    Fluxite[a, 300]
+    Fluxite[b, "bye world"]
+    Fluxite[a, 400]
 
     assert log == [100, 200]
   end
@@ -443,11 +481,11 @@ describe Fluxite do
 
     a.before(b).each { |n| log << n }
 
-    Fluxite.pass(b, "hello world")
-    Fluxite.pass(a, 100)
-    Fluxite.pass(a, 200)
-    Fluxite.pass(b, "bye world")
-    Fluxite.pass(a, 300)
+    Fluxite[b, "hello world"]
+    Fluxite[a, 100]
+    Fluxite[a, 200]
+    Fluxite[b, "bye world"]
+    Fluxite[a, 300]
 
     assert log.empty?
   end
@@ -460,12 +498,12 @@ describe Fluxite do
 
     a.after(b).each { |n| log << n }
 
-    Fluxite.pass(a, 100)
-    Fluxite.pass(b, "hello world")
-    Fluxite.pass(a, 200)
-    Fluxite.pass(a, 300)
-    Fluxite.pass(b, "bye world")
-    Fluxite.pass(a, 400)
+    Fluxite[a, 100]
+    Fluxite[b, "hello world"]
+    Fluxite[a, 200]
+    Fluxite[a, 300]
+    Fluxite[b, "bye world"]
+    Fluxite[a, 400]
 
     assert log == [200, 300, 400]
   end
@@ -478,12 +516,12 @@ describe Fluxite do
 
     a.after(b).each { |n| log << n }
 
-    Fluxite.pass(b, "hello world")
-    Fluxite.pass(a, 100)
-    Fluxite.pass(a, 200)
-    Fluxite.pass(a, 300)
-    Fluxite.pass(b, "bye world")
-    Fluxite.pass(a, 400)
+    Fluxite[b, "hello world"]
+    Fluxite[a, 100]
+    Fluxite[a, 200]
+    Fluxite[a, 300]
+    Fluxite[b, "bye world"]
+    Fluxite[a, 400]
 
     assert log == [100, 200, 300, 400]
   end
@@ -496,19 +534,19 @@ describe Fluxite do
 
     a.gate(by: b).each { |data| log << data }
 
-    Fluxite.pass(a, 100)
-    Fluxite.pass(a, 200)
-    Fluxite.pass(b, false)
-    Fluxite.pass(b, false)
-    Fluxite.pass(a, 300)
-    Fluxite.pass(b, true)
-    Fluxite.pass(b, true)
-    Fluxite.pass(a, 400)
-    Fluxite.pass(a, 500)
-    Fluxite.pass(b, false)
-    Fluxite.pass(a, 600)
-    Fluxite.pass(a, 700)
-    Fluxite.pass(b, true)
+    Fluxite[a, 100]
+    Fluxite[a, 200]
+    Fluxite[b, false]
+    Fluxite[b, false]
+    Fluxite[a, 300]
+    Fluxite[b, true]
+    Fluxite[b, true]
+    Fluxite[a, 400]
+    Fluxite[a, 500]
+    Fluxite[b, false]
+    Fluxite[a, 600]
+    Fluxite[a, 700]
+    Fluxite[b, true]
 
     assert log == [{300, true}, {400, false}, {500, false}, {700, true}]
   end
@@ -521,15 +559,15 @@ describe Fluxite do
 
     a.gate(by: b).each { |data| log << data }
 
-    Fluxite.pass(b, false)
-    Fluxite.pass(b, true)
-    Fluxite.pass(a, 100)
-    Fluxite.pass(a, 200)
-    Fluxite.pass(b, false)
-    Fluxite.pass(b, false)
-    Fluxite.pass(a, 300)
-    Fluxite.pass(a, 400)
-    Fluxite.pass(b, true)
+    Fluxite[b, false]
+    Fluxite[b, true]
+    Fluxite[a, 100]
+    Fluxite[a, 200]
+    Fluxite[b, false]
+    Fluxite[b, false]
+    Fluxite[a, 300]
+    Fluxite[a, 400]
+    Fluxite[b, true]
 
     assert log == [{100, true}, {200, false}, {400, true}]
   end
@@ -539,7 +577,7 @@ describe Fluxite do
     o.select { |n| n < 10_000 }.map(&.succ).into(o)
     ok = false
     o.select(9_999).each { ok = true }
-    Fluxite.pass(o, 0)
+    Fluxite[o, 0]
     assert ok
   end
 
@@ -554,7 +592,7 @@ describe Fluxite do
     a.map(&.itself).map(&.itself).each { log << :d }
     a.map(&.itself).map(&.itself).map(&.itself).each { log << :e }
 
-    Fluxite.pass(a, 0)
+    Fluxite[a, 0]
 
     assert log == [:a, :b, :c, :d, :e]
   end
@@ -573,7 +611,7 @@ describe Fluxite do
       .squash('3')
       .each { |y| log << y }
 
-    Fluxite.pass(foo, -103772335)
+    Fluxite[foo, -103772335]
 
     assert log == [false, '7', '2', '3', '5']
   end
@@ -602,7 +640,7 @@ describe Fluxite do
     end.map(&.ord.to_u32).into(w1)
 
     "lorem ipsum._dolor_sit_ametHello World.john_doe_speaking".each_char do |chr|
-      Fluxite.pass(w1, chr.ord.to_u32)
+      Fluxite[w1, chr.ord.to_u32]
     end
 
     assert log == ["lorem", "ipsum._d", "olor_sit", "_ametHel", "lo", "World.jo", "hn_doe_s"]
