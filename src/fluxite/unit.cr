@@ -263,7 +263,7 @@ module Fluxite
   end
 
   # :nodoc:
-  class UpTo(T)
+  class Recent(T)
     include Unit
     include IMailbox(T)
     include PipeOut(Array(T))

@@ -594,7 +594,7 @@ describe Fluxite do
     w1 = Port(UInt32).new
     w2 = Port(String).new
     w1.map(&.chr).select(&.printable?).batch(&->sf2(Array(Char), Char)).map(&.join).each { |line| log << line }
-    w1.map(&.chr).select(&.printable?).up_to(&->sf2(Array(Char), Char)).map(&.join).each { |line| last = line }
+    w1.map(&.chr).select(&.printable?).recent(&->sf2(Array(Char), Char)).map(&.join).each { |line| last = line }
     outp = w2.forward(Char) do |string, feed|
       string.each_char do |ch|
         feed.call(ch)

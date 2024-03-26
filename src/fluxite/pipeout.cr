@@ -423,8 +423,8 @@ module Fluxite::PipeOut(T)
     into Batch(T).new(fn)
   end
 
-  def up_to(&fn : Array(T), T -> Cut)
-    into UpTo(T).new(fn)
+  def recent(&fn : Array(T), T -> Cut)
+    into Recent(T).new(fn)
   end
 
   # Emits batches of *n* incoming objects. Waits until the entire batch is
@@ -454,8 +454,8 @@ module Fluxite::PipeOut(T)
   end
 
   # Emits up to *n* incoming objects.
-  def up_to(n : Int)
-    up_to { |batch, _| batch.size < n ? Cut::Put : Cut::SplitPut }
+  def upto(n : Int)
+    recent { |batch, _| batch.size < n ? Cut::Put : Cut::SplitPut }
   end
 
   def track(other : IFanout(U), default : U) forall U
