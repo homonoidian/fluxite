@@ -312,6 +312,90 @@ describe Fluxite do
     assert log == [{123, 1}, {456, 1}, {100, 3}]
   end
 
+  test "#track layouts, basic" do
+    m = Fluxite::Port(String).new
+    s1 = Fluxite::Port(Int32).new
+    s2 = Fluxite::Port(Bool).new
+    s3 = Fluxite::Port(Float64).new
+
+    log = [] of {String, Int32, Bool, Float64}
+
+    m.track(s1, s2, s3).each { |a, b, c, d| log << {a, b, c, d} }
+
+    Fluxite.pass(s1, 123)
+    Fluxite.pass(m, "hello world")
+    Fluxite.pass(m, "bye world")
+    Fluxite.pass(s2, false)
+    Fluxite.pass(s3, 123.456)
+    assert log == [{"bye world", 123, false, 123.456}]
+
+    Fluxite.pass(s2, true)
+    Fluxite.pass(s1, 456)
+    Fluxite.pass(m, "foobar")
+    assert log == [{"bye world", 123, false, 123.456}, {"foobar", 456, true, 123.456}]
+
+    Fluxite.pass(s3, 10.123)
+    Fluxite.pass(m, "baz")
+    assert log == [{"bye world", 123, false, 123.456}, {"foobar", 456, true, 123.456}, {"baz", 456, true, 10.123}]
+  end
+
+  test "#track, layout mix" do
+    m = Fluxite::Port(String).new
+    s1 = Fluxite::Port(Int32).new
+    s2 = Fluxite::Port(Bool).new
+    s3 = Fluxite::Port(Float64).new
+    s4 = Fluxite::Port(String | Int32).new
+
+    log = [] of {String, Int32, Bool, Float64, Int32 | String}
+
+    m
+      .track(s1, { from: s2, default: false }, { from: s3 }, { from: s4, default: "xyzzy" })
+      .each { |a, b, c, d, e| log << {a, b, c, d, e} }
+
+    Fluxite.pass(s3, 123.456)
+    Fluxite.pass(s1, 400)
+    Fluxite.pass(m, "hello world")
+    assert log == [{"hello world", 400, false, 123.456, "xyzzy"}]
+
+    Fluxite.pass(m, "foobar")
+
+    assert log == [
+      {"hello world", 400, false, 123.456, "xyzzy"},
+      {"foobar", 400, false, 123.456, "xyzzy"}
+    ]
+
+    Fluxite.pass(s2, true)
+    Fluxite.pass(m, "foobaz")
+
+    assert log == [
+      {"hello world", 400, false, 123.456, "xyzzy"},
+      {"foobar", 400, false, 123.456, "xyzzy"},
+      {"foobaz", 400, true, 123.456, "xyzzy"}
+    ]
+
+    Fluxite.pass(s4, "baz")
+    Fluxite.pass(m, "bye world")
+
+    assert log == [
+      {"hello world", 400, false, 123.456, "xyzzy"},
+      {"foobar", 400, false, 123.456, "xyzzy"},
+      {"foobaz", 400, true, 123.456, "xyzzy"},
+      {"bye world", 400, true, 123.456, "baz"},
+    ]
+
+    Fluxite.pass(s4, 456)
+    Fluxite.pass(s3, 10.234)
+    Fluxite.pass(m, "foobar")
+
+    assert log == [
+      {"hello world", 400, false, 123.456, "xyzzy"},
+      {"foobar", 400, false, 123.456, "xyzzy"},
+      {"foobaz", 400, true, 123.456, "xyzzy"},
+      {"bye world", 400, true, 123.456, "baz"},
+      {"foobar", 400, true, 10.234, 456},
+    ]
+  end
+
   test "#during" do
     a = Port(Int32).new
     b = Port(Bool).new

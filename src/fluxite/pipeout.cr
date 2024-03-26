@@ -450,8 +450,8 @@ module Fluxite::PipeOut(T)
   # Fluxite.pass(xs, 7)
   #
   # # STDOUT:
-  # # triple # => [1, 2, 3]
-  # # triple # => [4, 5, 6]
+  # #   triple # => [1, 2, 3]
+  # #   triple # => [4, 5, 6]
   # ```
   def batch(n : Int)
     batch { |batch, _| batch.size < n ? Cut::Put : Cut::SplitPut }
@@ -480,6 +480,117 @@ module Fluxite::PipeOut(T)
     b.into(track)
 
     track
+  end
+
+  private def normtrack(spec : {from: IFanout(U), default: V}) forall U, V
+    {other: spec[:from].select(U | V), default: spec[:default]}
+  end
+
+  private def normtrack(spec : NamedTuple)
+    {other: spec[:from]}
+  end
+
+  private def normtrack(spec : IFanout(U)) forall U
+    normtrack({from: spec})
+  end
+
+  private macro bitake(var, n)
+    { {% if n == 1 %}
+        {{var}}[0],
+      {% elsif n == 2 %}
+        {{var}}[0], {{var}}[1],
+      {% else %}
+        *bitake({{var}}[0], {{n - 1}}), {{var}}[1]
+      {% end %} }
+  end
+
+  # Tracks multiple values simultaneously as described by *layout*.
+  #
+  # Remember: tracking is for when you have a master pipeout and a few pipeouts that
+  # the master's emission should be combined with, and you want to know their most up
+  # to date values. In other words, `track` quietly tracks the pipeouts, and emits when
+  # the master pipeout emits.
+  #
+  # Layout can feature any combination of the following:
+  #
+  # - A pipeout of any type (e.g. `track(xs.select(&.even?), ys.reject(&.odd?))`)
+  # - A spec for a pipeout with a default value (e.g. `track({ from: xs.select(&.even?), default: 2 }, { from: ys.select(&.odd?), default: 3 })`)
+  # - A spec for a pipeout without a default value (e.g. `track({ from: xs.select(&.even?) }, { from: ys.select(&.odd?) })`),
+  #   allowed mostly for consistency (when some pipeouts have defaults and some don't, it's
+  #   recommended to use this form).
+  #
+  # Using raw pipeout (will have to wait until all of age, profession arrive):
+  #
+  # ```
+  # names = Fluxite::Port(String).new
+  # ages = Fluxite::Port(Int32).new
+  # professions = Fluxite::Port(String).new
+  #
+  # names
+  #   .track(ages, professions)
+  #   .each { |name, age, profession| p!({ name, age, profession})  }
+  #
+  # Fluxite.pass(ages, 25)
+  # Fluxite.pass(names, "John Doe")
+  # Fluxite.pass(professions, "programmer")
+  #
+  # # STDOUT:
+  # #   {name, age, profession} # => {"John Doe", 25, "programmer"}
+  #
+  # Fluxite.pass(profession, "gardener")
+  # Fluxite.pass(age, 32)
+  #
+  # # Prints nothing. `age` and `profession` are quietly tracked by `name`,
+  # # to get their freshest values when `name` changes.
+  #
+  # Fluxite.pass(names, "Susan Doe")
+  #
+  # # STDOUT:
+  # #   {name, age, profession} # => {"Susan Doe", 32, "gardener"}
+  # ```
+  #
+  # Specifying a default value to be used before a tracked pipeout emits:
+  #
+  # ```
+  # names = Fluxite::Port(String).new
+  # ages = Fluxite::Port(Int32).new
+  # professions = Fluxite::Port(String).new
+  #
+  # names
+  #   .track(ages, { from: professions, default: "unspecified" })
+  #   .each { |name, age, profession| p!({ name, age, profession})  }
+  #
+  # # For consistency you may write the above as:
+  # # name
+  # #   .track(
+  # #     { from: ages },
+  # #     { from: professions, default: "unspecified" })
+  # #   .each { |name, age, profession| p!({ name, age, profession })
+  #
+  # Fluxite.pass(ages, 25)
+  # Fluxite.pass(names, "John Doe")
+  #
+  # # STDOUT:
+  # #   {name, age, profession} # => {"John Doe", 25, "unspecified"}
+  #
+  # Fluxite.pass(professions, "writer")
+  #
+  # # Again, prints nothing. We've used the default value. Now a new `name`
+  # # must arrive before we register the new profession.
+  #
+  # Fluxite.pass(names, "Mark Stephenson")
+  #
+  # # STDOUT:
+  # #   {name, age, profession} # => {"Mark Stephenson", 25, "writer"}
+  # ```
+  def track(*layout : *U) forall U
+    source = self
+
+    {% for cls, index in U %}
+      source = source.track(**normtrack(layout[{{index}}]))
+    {% end %}
+
+    source.map { |tuple| bitake(tuple, {{U.size + 1}}) } # + 1 -- includes the output of `self` as the first item
   end
 
   def during(gate : IFanout(Bool))
