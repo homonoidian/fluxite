@@ -161,7 +161,7 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L1" target="_blank">
         fluxite/pipeout.cr
       </a>
     
@@ -267,7 +267,21 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#into%28receiver%2C%26fn%3AT-%3EU%29%3ANilforallT%2CU-instance-method" class="signature"><strong>#into</strong>(receiver, &fn : T -> U) : Nil forall T, U</a>
+        
+          <div class="summary"><p>Transforms incoming objects using <em>fn</em> and appends them to <em>receiver</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#into%28%26fn%3AT-%3EEnumerable%28IMailbox%28T%29%29%29%3ANil-instance-method" class="signature"><strong>#into</strong>(&fn : T -> Enumerable(IMailbox(T))) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#into%28receiver%29%3ANil-instance-method" class="signature"><strong>#into</strong>(receiver) : Nil</a>
+        
+          <div class="summary"><p>Appends incoming objects to <em>receiver</em>.</p></div>
         
       </li>
     
@@ -454,7 +468,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L611" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L662" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -470,7 +484,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L422" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L473" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -492,13 +506,13 @@ you want.</p>
 <pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 xs.batch(<span class="n">3</span>).each { <span class="o">|</span>triple<span class="o">|</span> p! triple }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">5</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">6</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">7</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">3</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">4</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">5</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">6</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">7</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   triple # =&gt; [1, 2, 3]</span>
@@ -508,7 +522,7 @@ xs.batch(<span class="n">3</span>).each { <span class="o">|</span>triple<span cl
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L452" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L503" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -524,7 +538,7 @@ xs.batch(<span class="n">3</span>).each { <span class="o">|</span>triple<span cl
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L601" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L652" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -544,7 +558,7 @@ returned by <em>fn</em>.</p>
 <pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">String</span>).new
 xs.blast(<span class="o">&amp;</span>.chars).squash.each { <span class="o">|</span>ch<span class="o">|</span> p! ch }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="s">&quot;helloo&quot;</span>)
+<span class="t">Fluxite</span>[xs, <span class="s">&quot;helloo&quot;</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   ch # =&gt; &#39;h&#39;</span>
@@ -556,7 +570,7 @@ xs.blast(<span class="o">&amp;</span>.chars).squash.each { <span class="o">|</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L172" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L223" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -576,10 +590,10 @@ is still emitted).</p>
 <pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 xs.compact_map { <span class="o">|</span>x<span class="o">|</span> x.even? ? <span class="s">&quot;</span><span class="i">#{</span>x<span class="i">}</span><span class="s"> even&quot;</span> : <span class="n">nil</span> }.each { <span class="o">|</span>x<span class="o">|</span> p! x }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">3</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">4</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   x # =&gt; &quot;2 even&quot;</span>
@@ -589,7 +603,7 @@ xs.compact_map { <span class="o">|</span>x<span class="o">|</span> x.even? ? <sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L153" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L204" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -605,7 +619,7 @@ xs.compact_map { <span class="o">|</span>x<span class="o">|</span> x.even? ? <sp
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L592" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L643" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -624,9 +638,9 @@ xs.compact_map { <span class="o">|</span>x<span class="o">|</span> x.even? ? <sp
 <pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">100</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">200</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">300</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">100</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">200</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">300</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   x # =&gt; 100</span>
@@ -637,7 +651,7 @@ xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L50" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L101" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -653,7 +667,7 @@ xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L418" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L469" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -669,7 +683,7 @@ xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L620" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L671" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -685,7 +699,7 @@ xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L20" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L20" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -701,7 +715,7 @@ xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L2" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L2" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -717,7 +731,7 @@ xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -733,7 +747,44 @@ xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L14" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(receiver,&amp;fn:T-&gt;U):NilforallT,U-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(receiver, &fn : T -> U) : Nil forall T, U
+
+        <a class="method-permalink" href="#into%28receiver%2C%26fn%3AT-%3EU%29%3ANilforallT%2CU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Transforms incoming objects using <em>fn</em> and appends them to <em>receiver</em>.</p>
+<p><em>receiver</em> must respond to <code>&lt;&lt;(object)</code> where <em>object</em> is the result of <em>fn</em>.
+So all of <code>IO</code>, <code>Array</code>, <code>Set</code>, <code>Deque</code> etc. are supported by this method.</p>
+<pre><code class="language-crystal">squares <span class="o">=</span> <span class="o">[]</span> <span class="k">of</span> <span class="t">Int32</span>
+
+xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.<span class="k">select</span>(<span class="o">&amp;</span>.even?).into(squares) { <span class="o">|</span>n<span class="o">|</span> n <span class="o">**</span> <span class="n">2</span> }
+
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">3</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">4</span>]
+
+p! squares
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   squares # =&gt; [4, 16]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L56" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -749,7 +800,45 @@ xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L26" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="into(receiver):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>into</strong>(receiver) : Nil
+
+        <a class="method-permalink" href="#into%28receiver%29%3ANil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Appends incoming objects to <em>receiver</em>.</p>
+<p><em>receiver</em> must respond to <code>&lt;&lt;(object)</code> where <em>object</em> the incoming object.
+So all of <code>IO</code>, <code>Array</code>, <code>Set</code>, <code>Deque</code> etc. are supported by this method.</p>
+<pre><code class="language-crystal">cubes <span class="o">=</span> <span class="o">[]</span> <span class="k">of</span> <span class="t">Int32</span>
+
+xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.<span class="k">select</span>(<span class="o">&amp;</span>.odd?).map { <span class="o">|</span>n<span class="o">|</span> n <span class="o">**</span> <span class="n">3</span> }.into(cubes)
+
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">3</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">4</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">5</span>]
+
+p! cubes
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   cubes # =&gt; [1, 27, 125]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L82" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -768,9 +857,9 @@ xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
 <pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Port</span>(<span class="t">Int32</span>).new
 xs.map(<span class="o">&amp;</span>.chr).each { <span class="o">|</span>ch<span class="o">|</span> p! ch }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">100</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">102</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">103</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">100</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">102</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">103</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   ch # =&gt; &#39;d&#39;</span>
@@ -781,7 +870,7 @@ xs.map(<span class="o">&amp;</span>.chr).each { <span class="o">|</span>ch<span 
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L69" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L120" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -804,9 +893,9 @@ xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</sp
 xs.each { <span class="o">|</span>x<span class="o">|</span> p! x }
 xs.map(<span class="t">Var</span>).each { <span class="o">|</span>var<span class="o">|</span> p! var }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">100u32</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">200u32</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">300u32</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">100u32</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">200u32</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">300u32</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   x   # =&gt; 100</span>
@@ -820,7 +909,7 @@ xs.map(<span class="t">Var</span>).each { <span class="o">|</span>var<span class
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L146" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -844,8 +933,8 @@ record <span class="t">Baz</span>, x : <span class="t">Bool</span>
 xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>({<span class="t">Int32</span>, <span class="t">String</span>, <span class="t">Bool</span>}).new
 xs.map(<span class="t">Foo</span>, <span class="t">Bar</span>, <span class="t">Baz</span>).each { <span class="o">|</span>ys<span class="o">|</span> p! ys }
 
-<span class="t">Fluxite</span>.pass(xs, {<span class="n">100</span>, <span class="s">&quot;hello&quot;</span>, <span class="n">true</span>})
-<span class="t">Fluxite</span>.pass(xs, {<span class="n">200</span>, <span class="s">&quot;world&quot;</span>, <span class="n">false</span>})
+<span class="t">Fluxite</span>[xs, {<span class="n">100</span>, <span class="s">&quot;hello&quot;</span>, <span class="n">true</span>}]
+<span class="t">Fluxite</span>[xs, {<span class="n">200</span>, <span class="s">&quot;world&quot;</span>, <span class="n">false</span>}]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   ys # =&gt; {Foo(@x=100), Bar(@x=&quot;hello&quot;), Baz(@x=true)}</span>
@@ -855,7 +944,7 @@ xs.map(<span class="t">Foo</span>, <span class="t">Bar</span>, <span class="t">B
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L123" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L174" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -876,7 +965,7 @@ xs.map(<span class="t">Foo</span>, <span class="t">Bar</span>, <span class="t">B
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L265" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L316" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -897,7 +986,7 @@ xs.map(<span class="t">Foo</span>, <span class="t">Bar</span>, <span class="t">B
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L270" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L321" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -918,10 +1007,10 @@ ys <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</sp
 
 xs.or(ys).each { <span class="o">|</span>common<span class="o">|</span> p! common }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">:foo</span>)
-<span class="t">Fluxite</span>.pass(ys, <span class="n">200</span>)
-<span class="t">Fluxite</span>.pass(ys, <span class="n">300</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">:bar</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">:foo</span>]
+<span class="t">Fluxite</span>[ys, <span class="n">200</span>]
+<span class="t">Fluxite</span>[ys, <span class="n">300</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">:bar</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   common # =&gt; :foo</span>
@@ -933,7 +1022,7 @@ xs.or(ys).each { <span class="o">|</span>common<span class="o">|</span> p! commo
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L408" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L459" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -956,10 +1045,10 @@ even, odd <span class="o">=</span> xs.partition(<span class="o">&amp;</span>.eve
 even.each { <span class="o">|</span>even<span class="o">|</span> p! even }
 odd.each { <span class="o">|</span>odd<span class="o">|</span> p! odd }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">3</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">4</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   odd # =&gt; 1</span>
@@ -971,7 +1060,7 @@ odd.each { <span class="o">|</span>odd<span class="o">|</span> p! odd }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L380" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L431" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -987,7 +1076,7 @@ odd.each { <span class="o">|</span>odd<span class="o">|</span> p! odd }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L426" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L477" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1006,10 +1095,10 @@ odd.each { <span class="o">|</span>odd<span class="o">|</span> p! odd }
 <pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 xs.reject(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>odd<span class="o">|</span> p! odd }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">3</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">4</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   odd # =&gt; 1</span>
@@ -1019,7 +1108,7 @@ xs.reject(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>odd
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L254" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L305" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1041,7 +1130,7 @@ xs.reject(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>odd
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L260" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L311" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1060,10 +1149,10 @@ xs.reject(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>odd
 <pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 xs.<span class="k">select</span>(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>even<span class="o">|</span> p! even }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">3</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">4</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   even # =&gt; 2</span>
@@ -1074,7 +1163,7 @@ xs.<span class="k">select</span>(<span class="o">&amp;</span>.even?).each { <spa
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L198" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L249" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1097,9 +1186,9 @@ xs.<span class="k">select</span>(<span class="t">Symbol</span>).each { <span cla
 xs.<span class="k">select</span>(<span class="t">String</span>).each { <span class="o">|</span>str<span class="o">|</span> p! str }
 xs.<span class="k">select</span>(<span class="t">Int32</span>).each { <span class="o">|</span>int<span class="o">|</span> p! int }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">100</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">:hello</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="s">&quot;world&quot;</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">100</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">:hello</span>]
+<span class="t">Fluxite</span>[xs, <span class="s">&quot;world&quot;</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   int # =&gt; 100</span>
@@ -1111,7 +1200,7 @@ xs.<span class="k">select</span>(<span class="t">Int32</span>).each { <span clas
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L223" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L274" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1134,7 +1223,7 @@ Equality is tested using <code>===</code>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L235" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L286" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1160,7 +1249,7 @@ xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</sp
 xs.squash { <span class="o">|</span>x, y<span class="o">|</span> x <span class="o">&gt;=</span> y }.each { <span class="o">|</span>n<span class="o">|</span> max <span class="o">=</span> n }
 
 (<span class="n">-100</span>..<span class="n">100</span>).to_a.shuffle!.each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
-  <span class="t">Fluxite</span>.pass(xs, n)
+  <span class="t">Fluxite</span>[xs, n]
 <span class="k">end</span>
 
 max <span class="c"># =&gt; 100</span></code></pre>
@@ -1169,7 +1258,7 @@ max <span class="c"># =&gt; 100</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L293" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L344" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1195,7 +1284,7 @@ xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</sp
 xs.squash { <span class="o">|</span>x, y<span class="o">|</span> x <span class="o">&gt;=</span> y }.each { <span class="o">|</span>n<span class="o">|</span> max <span class="o">=</span> n }
 
 (<span class="n">-100</span>..<span class="n">100</span>).to_a.shuffle!.each <span class="k">do</span> <span class="o">|</span>n<span class="o">|</span>
-  <span class="t">Fluxite</span>.pass(xs, n)
+  <span class="t">Fluxite</span>[xs, n]
 <span class="k">end</span>
 
 max <span class="c"># =&gt; 100</span></code></pre>
@@ -1204,7 +1293,7 @@ max <span class="c"># =&gt; 100</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L298" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L349" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1224,11 +1313,11 @@ max <span class="c"># =&gt; 100</span></code></pre>
 <pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 xs.squash.each { <span class="o">|</span>x<span class="o">|</span> p! x }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">3</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">3</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   x # =&gt; 1</span>
@@ -1240,7 +1329,7 @@ xs.squash.each { <span class="o">|</span>x<span class="o">|</span> p! x }
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L355" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L406" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1263,12 +1352,12 @@ that value. Otherwise, the first object is always emitted.</p>
 xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 xs.squash_by(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>x<span class="o">|</span> p! x }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">5</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">6</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">7</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">4</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">5</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">6</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">7</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   x # =&gt; 1</span>
@@ -1281,7 +1370,7 @@ xs.squash_by(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L326" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L377" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1304,12 +1393,12 @@ that value. Otherwise, the first object is always emitted.</p>
 xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 xs.squash_by(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>x<span class="o">|</span> p! x }
 
-<span class="t">Fluxite</span>.pass(xs, <span class="n">1</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">2</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">4</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">5</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">6</span>)
-<span class="t">Fluxite</span>.pass(xs, <span class="n">7</span>)
+<span class="t">Fluxite</span>[xs, <span class="n">1</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">2</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">4</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">5</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">6</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">7</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   x # =&gt; 1</span>
@@ -1322,7 +1411,7 @@ xs.squash_by(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L331" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L382" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1338,7 +1427,7 @@ xs.squash_by(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L461" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L512" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1354,7 +1443,7 @@ xs.squash_by(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L471" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L522" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1370,19 +1459,19 @@ xs.squash_by(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>
         <div class="doc">
           
           <p>Tracks multiple values simultaneously as described by <em>layout</em>.</p>
-<p>Remember: tracking is for when you have a master pipeout and a few pipeouts that
+<p>Remember: tracking is for when you have a master unit and a few units that
 the master's emission should be combined with, and you want to know their most up
-to date values. In other words, <code><a href="../Fluxite/PipeOut.html#track%28other%3AIFanout%28U%29%2Cdefault%3AU%29forallU-instance-method">#track</a></code> quietly tracks the pipeouts, and emits when
-the master pipeout emits.</p>
+to date values. In other words, <code><a href="../Fluxite/PipeOut.html#track%28other%3AIFanout%28U%29%2Cdefault%3AU%29forallU-instance-method">#track</a></code> quietly tracks the units, and emits when
+the master unit emits.</p>
 <p>Layout can feature any combination of the following:</p>
 <ul>
-<li>A pipeout of any type (e.g. <code><a href="../Fluxite/PipeOut.html#track%28other%3AIFanout%28U%29%2Cdefault%3AU%29forallU-instance-method">#track(xs.select(&amp;.even?), ys.reject(&amp;.odd?))</a></code>)</li>
-<li>A spec for a pipeout with a default value (e.g. <code>track({ from: xs.select(&amp;.even?), default: 2 }, { from: ys.select(&amp;.odd?), default: 3 })</code>)</li>
-<li>A spec for a pipeout without a default value (e.g. <code><a href="../Fluxite/PipeOut.html#track%28other%3AIFanout%28U%29%2Cdefault%3AU%29forallU-instance-method">#track({ from: xs.select(&amp;.even?) }, { from: ys.select(&amp;.odd?) })</a></code>),
-allowed mostly for consistency (when some pipeouts have defaults and some don't, it's
+<li>A unit of any type (e.g. <code><a href="../Fluxite/PipeOut.html#track%28other%3AIFanout%28U%29%2Cdefault%3AU%29forallU-instance-method">#track(xs.select(&amp;.even?), ys.reject(&amp;.odd?))</a></code>)</li>
+<li>A spec for a unit with a default value (e.g. <code>track({ from: xs.select(&amp;.even?), default: 2 }, { from: ys.select(&amp;.odd?), default: 3 })</code>)</li>
+<li>A spec for a unit without a default value (e.g. <code><a href="../Fluxite/PipeOut.html#track%28other%3AIFanout%28U%29%2Cdefault%3AU%29forallU-instance-method">#track({ from: xs.select(&amp;.even?) }, { from: ys.select(&amp;.odd?) })</a></code>),
+allowed mostly for consistency (when some units have defaults and some don't, it's
 recommended to use this form).</li>
 </ul>
-<p>Using raw pipeout (will have to wait until all of age, profession arrive):</p>
+<p>Using raw unit (will have to wait until all of age, profession arrive):</p>
 <pre><code class="language-crystal">names <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">String</span>).new
 ages <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 professions <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">String</span>).new
@@ -1391,24 +1480,24 @@ names
   .track(ages, professions)
   .each { <span class="o">|</span>name, age, profession<span class="o">|</span> p!({name, age, profession}) }
 
-<span class="t">Fluxite</span>.pass(ages, <span class="n">25</span>)
-<span class="t">Fluxite</span>.pass(names, <span class="s">&quot;John Doe&quot;</span>)
-<span class="t">Fluxite</span>.pass(professions, <span class="s">&quot;programmer&quot;</span>)
+<span class="t">Fluxite</span>[ages, <span class="n">25</span>]
+<span class="t">Fluxite</span>[names, <span class="s">&quot;John Doe&quot;</span>]
+<span class="t">Fluxite</span>[professions, <span class="s">&quot;programmer&quot;</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   {name, age, profession} # =&gt; {&quot;John Doe&quot;, 25, &quot;programmer&quot;}</span>
 
-<span class="t">Fluxite</span>.pass(profession, <span class="s">&quot;gardener&quot;</span>)
-<span class="t">Fluxite</span>.pass(age, <span class="n">32</span>)
+<span class="t">Fluxite</span>[profession, <span class="s">&quot;gardener&quot;</span>]
+<span class="t">Fluxite</span>[age, <span class="n">32</span>]
 
 <span class="c"># Prints nothing. `age` and `profession` are quietly tracked by `name`,</span>
 <span class="c"># to get their freshest values when `name` changes.</span>
 
-<span class="t">Fluxite</span>.pass(names, <span class="s">&quot;Susan Doe&quot;</span>)
+<span class="t">Fluxite</span>[names, <span class="s">&quot;Susan Doe&quot;</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   {name, age, profession} # =&gt; {&quot;Susan Doe&quot;, 32, &quot;gardener&quot;}</span></code></pre>
-<p>Specifying a default value to be used before a tracked pipeout emits:</p>
+<p>Specifying a default value to be used before a tracked unit emits:</p>
 <pre><code class="language-crystal">names <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">String</span>).new
 ages <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
 professions <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">String</span>).new
@@ -1424,18 +1513,18 @@ names
 <span class="c">#     { from: professions, default: &quot;unspecified&quot; })</span>
 <span class="c">#   .each { |name, age, profession| p!({ name, age, profession })</span>
 
-<span class="t">Fluxite</span>.pass(ages, <span class="n">25</span>)
-<span class="t">Fluxite</span>.pass(names, <span class="s">&quot;John Doe&quot;</span>)
+<span class="t">Fluxite</span>[ages, <span class="n">25</span>]
+<span class="t">Fluxite</span>[names, <span class="s">&quot;John Doe&quot;</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   {name, age, profession} # =&gt; {&quot;John Doe&quot;, 25, &quot;unspecified&quot;}</span>
 
-<span class="t">Fluxite</span>.pass(professions, <span class="s">&quot;writer&quot;</span>)
+<span class="t">Fluxite</span>[professions, <span class="s">&quot;writer&quot;</span>]
 
 <span class="c"># Again, prints nothing. We&#39;ve used the default value. Now a new `name`</span>
 <span class="c"># must arrive before we register the new profession.</span>
 
-<span class="t">Fluxite</span>.pass(names, <span class="s">&quot;Mark Stephenson&quot;</span>)
+<span class="t">Fluxite</span>[names, <span class="s">&quot;Mark Stephenson&quot;</span>]
 
 <span class="c"># STDOUT:</span>
 <span class="c">#   {name, age, profession} # =&gt; {&quot;Mark Stephenson&quot;, 25, &quot;writer&quot;}</span></code></pre>
@@ -1444,7 +1533,7 @@ names
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L582" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L633" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1465,7 +1554,7 @@ names
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L457" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L508" target="_blank">View source</a>]
         
       </div>
     </div>

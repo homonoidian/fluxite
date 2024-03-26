@@ -147,21 +147,21 @@
   </h2>
   
     
-      <a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite.cr#L4" target="_blank">
+      <a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite.cr#L4" target="_blank">
         fluxite.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/pipeout.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/pipeout.cr#L1" target="_blank">
         fluxite/pipeout.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/unit.cr#L1" target="_blank">
+      <a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/unit.cr#L1" target="_blank">
         fluxite/unit.cr
       </a>
     
@@ -204,22 +204,23 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#join%28%2Aargs%2C%2A%2Akwargs%29-class-method" class="signature"><strong>.join</strong>(*args, **kwargs)</a>
+        <a href="#%5B%5D%28unit%2Cobject%29-class-method" class="signature"><strong>.[]</strong>(unit, object)</a>
+        
+          <div class="summary"><p>A shorthand for <code><a href="Fluxite.html#pass%28unit%2Cobject%29-class-method">.pass</a></code>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#pass%28%2Aargs%2C%2A%2Akwargs%29-class-method" class="signature"><strong>.pass</strong>(*args, **kwargs)</a>
+        <a href="#join%28%2Aunits%29-class-method" class="signature"><strong>.join</strong>(*units)</a>
+        
+          <div class="summary"><p>Combines the emission of one or more <em>units</em> into a single unit whose output's type is a union of output types of <em>units</em>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#port%28intype%3AT.class%29forallT-class-method" class="signature"><strong>.port</strong>(intype : <span class="t">T</span>.<span class="k">class</span>) forall T</a>
+        <a href="#pass%28unit%2Cobject%29-class-method" class="signature"><strong>.pass</strong>(unit, object)</a>
         
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#port%28intype%3AT.class%2C%26%29forallT-class-method" class="signature"><strong>.port</strong>(intype : <span class="t">T</span>.<span class="k">class</span>, &) forall T</a>
+          <div class="summary"><p>Feeds <em>object</em> to unit.</p></div>
         
       </li>
     
@@ -239,6 +240,13 @@
     
       <li class="entry-summary">
         <a href="#has_fanout%28cls%29-macro" class="signature"><strong>has_fanout</strong>(cls)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#port%28intype%2C%26block%29-macro" class="signature"><strong>port</strong>(intype, &block)</a>
+        
+          <div class="summary"><p>Creates a port <em>P</em> and yields it to the block.</p></div>
         
       </li>
     
@@ -264,66 +272,99 @@
     Class Method Detail
   </h2>
   
-    <div class="entry-detail" id="join(*args,**kwargs)-class-method">
+    <div class="entry-detail" id="[](unit,object)-class-method">
       <div class="signature">
         
-        def self.<strong>join</strong>(*args, **kwargs)
+        def self.<strong>[]</strong>(unit, object)
 
-        <a class="method-permalink" href="#join%28%2Aargs%2C%2A%2Akwargs%29-class-method">#</a>
+        <a class="method-permalink" href="#%5B%5D%28unit%2Cobject%29-class-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>A shorthand for <code><a href="Fluxite.html#pass%28unit%2Cobject%29-class-method">.pass</a></code>.</p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="pass(*args,**kwargs)-class-method">
+    <div class="entry-detail" id="join(*units)-class-method">
       <div class="signature">
         
-        def self.<strong>pass</strong>(*args, **kwargs)
+        def self.<strong>join</strong>(*units)
 
-        <a class="method-permalink" href="#pass%28%2Aargs%2C%2A%2Akwargs%29-class-method">#</a>
+        <a class="method-permalink" href="#join%28%2Aunits%29-class-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Combines the emission of one or more <em>units</em> into a single unit whose
+output's type is a union of output types of <em>units</em>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+ys <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+zs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+
+<span class="t">Fluxite</span>.join(xs, ys, zs)
+  .<span class="k">select</span>(<span class="o">&amp;</span>.even?)
+  .each { <span class="o">|</span>n<span class="o">|</span> p! n }
+
+<span class="t">Fluxite</span>[xs, <span class="n">100</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">101</span>]
+<span class="t">Fluxite</span>[ys, <span class="n">102</span>]
+<span class="t">Fluxite</span>[ys, <span class="n">103</span>]
+<span class="t">Fluxite</span>[zs, <span class="n">104</span>]
+<span class="t">Fluxite</span>[zs, <span class="n">105</span>]
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   n # =&gt; 100</span>
+<span class="c">#   n # =&gt; 102</span>
+<span class="c">#   n # =&gt; 104</span></code></pre>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite.cr#L60" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="port(intype:T.class)forallT-class-method">
+    <div class="entry-detail" id="pass(unit,object)-class-method">
       <div class="signature">
         
-        def self.<strong>port</strong>(intype : <span class="t">T</span>.<span class="k">class</span>) forall T
+        def self.<strong>pass</strong>(unit, object)
 
-        <a class="method-permalink" href="#port%28intype%3AT.class%29forallT-class-method">#</a>
+        <a class="method-permalink" href="#pass%28unit%2Cobject%29-class-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Feeds <em>object</em> to unit.</p>
+<p>The main loop resides here, that is responsible for propagating messages
+in breadth-first manner.</p>
+<p>Try to avoid calling this method recursively. Instead, consider using <code>IPipeout#into</code>,
+or <code>IPipeout#forward</code> with its <code>Forward::Feed</code>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span><span class="t">::</span><span class="t">Port</span>(<span class="t">Int32</span>).new
+xs.<span class="k">select</span>(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>x<span class="o">|</span> p! x }
+
+<span class="t">Fluxite</span>.pass(xs, <span class="n">100</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">101</span>)
+<span class="t">Fluxite</span>.pass(xs, <span class="n">102</span>)
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   x # =&gt; 100</span>
+<span class="c">#   x # =&gt; 102</span></code></pre>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite.cr#L15" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="port(intype:T.class,&amp;)forallT-class-method">
-      <div class="signature">
-        
-        def self.<strong>port</strong>(intype : <span class="t">T</span>.<span class="k">class</span>, &) forall T
-
-        <a class="method-permalink" href="#port%28intype%3AT.class%2C%26%29forallT-class-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite.cr#L19" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -351,7 +392,42 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/homonoidian/fluxite/blob/5a71416624a2346fc57d3730923a92bac4b29c4f/src/fluxite/unit.cr#L47" target="_blank">View source</a>]
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite/unit.cr#L47" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="port(intype,&amp;block)-macro">
+      <div class="signature">
+        
+        macro <strong>port</strong>(intype, &block)
+
+        <a class="method-permalink" href="#port%28intype%2C%26block%29-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates a port <em>P</em> and yields it to the block. The block may attach
+units to the port. Returns the port <em>P</em>.</p>
+<p>If the block is absent simply creates and returns the port <em>P</em>.</p>
+<pre><code class="language-crystal">xs <span class="o">=</span> <span class="t">Fluxite</span>.port(<span class="t">Int32</span>, <span class="o">&amp;</span>.squash.map(<span class="o">&amp;</span>.even?).each { <span class="o">|</span>n<span class="o">|</span> p! n })
+
+<span class="t">Fluxite</span>[xs, <span class="n">100</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">100</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">101</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">102</span>]
+<span class="t">Fluxite</span>[xs, <span class="n">104</span>]
+
+<span class="c"># STDOUT:</span>
+<span class="c">#   n # =&gt; 100</span>
+<span class="c">#   n # =&gt; 102</span>
+<span class="c">#   n # =&gt; 104</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/homonoidian/fluxite/blob/b396c8410d3b98307a8b5bc4e609c1e48ba16302/src/fluxite.cr#L83" target="_blank">View source</a>]
         
       </div>
     </div>
