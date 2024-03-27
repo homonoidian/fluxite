@@ -1,5 +1,6 @@
 require "./fluxite/pipeout"
 require "./fluxite/unit"
+require "./fluxite/cord"
 
 module Fluxite
   VERSION = "0.1.0"
@@ -24,7 +25,7 @@ module Fluxite
   # #   x # => 100
   # #   x # => 102
   # ```
-  def self.pass(unit, object)
+  def self.pass(unit, object) : Nil
     Unit.pass(unit, object)
   end
 
@@ -44,7 +45,7 @@ module Fluxite
   # #   x # => 100
   # #   x # => 102
   # ```
-  def self.passall(unit, objects : Enumerable)
+  def self.passall(unit, objects : Enumerable) : Nil
     Unit.passall(unit, objects)
   end
 
@@ -56,7 +57,7 @@ module Fluxite
   # ```
   # Fluxite.passall(xs, 1, 2, 3) # Same as Fluxite.passall(xs, {1, 2, 3})
   # ```
-  def self.passall(unit, *objects)
+  def self.passall(unit, *objects) : Nil
     passall(unit, objects)
   end
 
@@ -65,7 +66,7 @@ module Fluxite
   # ```
   # Fluxite[xs, 100] # Same as Fluxite.pass(xs, 100)
   # ```
-  def self.[](unit, object)
+  def self.[](unit, object) : Nil
     pass(unit, object)
   end
 
@@ -74,7 +75,7 @@ module Fluxite
   # ```
   # Fluxite[xs, 1, 2, 3] # Same as Fluxite.passall(xs, 1, 2, 3)
   # ```
-  def self.[](unit, *objects)
+  def self.[](unit, *objects) : Nil
     passall(unit, objects)
   end
 

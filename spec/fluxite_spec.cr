@@ -608,6 +608,55 @@ describe Fluxite do
     assert log == [{100, true}, {200, false}, {400, true}]
   end
 
+  test "#port" do
+    xs = Port(Int32).new
+    assert xs.port.same?(xs)
+
+    log = [] of Int32
+
+    ys = xs.select(&.even?)
+    p = ys.port
+    p.into(log)
+
+    Fluxite[xs, 1, 2, 3, 4]
+
+    assert log == [2, 4]
+  end
+
+  test "#cord" do
+    xs = Port(Int32).new
+    ys = Port(Int32).new
+
+    cord = xs.cord(to: ys)
+
+    log = [] of Int32
+    ys.into(log)
+
+    Fluxite[xs, 123]
+    assert log.empty? # cord disabled
+
+    Fluxite[ys, 456]
+    assert log == [456] # but port can receive normally
+
+    assert cord.enable.same?(cord)
+
+    # enable multiple times to make sure all the set stuff under the hood works
+    # properly. we'd see duplicates in the log if it doesn't
+    cord.enable
+    cord.enable
+
+    Fluxite[xs, 1, 2, 3]
+    Fluxite[ys, 4, 5, 6]
+    assert log == [456, 1, 2, 3, 4, 5, 6]
+
+    cord.disable
+    cord.disable
+
+    Fluxite[xs, 100, 200, 300]
+    Fluxite[ys, 400, 500, 600]
+    assert log == [456, 1, 2, 3, 4, 5, 6, 400, 500, 600]
+  end
+
   test "basic feedback support" do
     o = Port(Int32).new
     o.select { |n| n < 10_000 }.map(&.succ).into(o)

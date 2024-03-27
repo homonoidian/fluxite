@@ -677,4 +677,72 @@ module Fluxite::PipeOut(T)
 
     gate
   end
+
+  # Creates and returns a new port that emits objects emitted by `self`. If `self`
+  # is a port already then simply returns `self`.
+  #
+  # ```
+  # xs = Fluxite.port(Int32)
+  # ys = xs.select(&.even?).map { |n| n ** 2 }.port
+  # ys.each { |n| p! n }
+  # ys.select { |n| n < 10 }.each { |b| p! b }
+  #
+  # Fluxite[xs, 1, 2, 3, 4]
+  #
+  # # STDOUT:
+  # #   n # => 4
+  # #   n # => 16
+  # #   b # => 4
+  # ```
+  def port : Port(T)
+    {% if @type <= Port %}
+      self
+    {% else %}
+      port = Port(T).new
+      into(port)
+      port
+    {% end %}
+  end
+
+  # Similar to `cord` but lets you specify the other port *other* manually.
+  # See `cord` for details and examples.
+  def cord(*, to other : Port(T)) : Cord(T)
+    Cord(T).new(port, output: other)
+  end
+
+  # Creates and returns a cord passing objects emitted by `self` to a new port.
+  # You can use `Cord#output` to obtain this new port, for instance to attach
+  # some units to it.
+  #
+  # Note that the cord is disabled by default.
+  #
+  # ```
+  # xs = Fluxite.port(Int32)
+  #
+  # cord = xs.cord
+  # cord.output
+  #   .select(&.even?)
+  #   .each { |n| p! n }
+  #
+  # Fluxite[xs, 2, 3, 4]
+  # # Nothing is printed! The cord is disabled by default.
+  #
+  # cord.enable
+  #
+  # Fluxite[xs, 2, 3, 4]
+  #
+  # # STDOUT:
+  # #   n # => 2
+  # #   n # => 4
+  #
+  # cord.disable
+  #
+  # Fluxite[xs, 2, 3, 4]
+  # # Nothing again. But this time since we've disabled the cord manually.
+  # ```
+  #
+  # See `Cord` and its methods to learn more.
+  def cord : Cord(T)
+    cord(to: Port(T).new)
+  end
 end

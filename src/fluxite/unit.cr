@@ -57,7 +57,7 @@ module Fluxite
   macro has_fanout(cls)
     include IFanout({{cls}})
 
-    @fanout = [] of IMailbox({{cls}})
+    @fanout = Set(IMailbox({{cls}})).new
 
     def connect(other : IMailbox({{cls}})) : Nil
       @fanout << other
