@@ -16,6 +16,42 @@ describe Fluxite do
     assert ys == [2, 4]
   end
 
+  test "passall" do
+    log = [] of Int32
+    xs = Fluxite.port(Int32, &.select(&.even?).into(log))
+
+    Fluxite.passall(xs, Set{1, 2, 3, 4})
+    Fluxite.passall(xs, [5, 6, 7, 8])
+    Fluxite.passall(xs, 9, 10, 11, 12)
+    Fluxite[xs, 13, 14, 15, 16]
+
+    assert log == [2, 4, 6, 8, 10, 12, 14, 16]
+  end
+
+  test "passall bf" do
+    v1 = false
+    v2 = false
+
+    log = [] of {Symbol, Bool}
+
+    cmds = Fluxite.port(Symbol)
+    cmds.select(:gov1).map { v1 = true; {:v2, v2} }.into(log)
+    cmds.select(:gov2).map { v2 = true; {:v1, v1} }.into(log)
+
+    # Depth first
+    Fluxite.pass(cmds, :gov1)
+    Fluxite.pass(cmds, :gov2)
+    assert log == [{:v2, false}, {:v1, true}]
+    assert v1 && v2
+
+    log.clear
+
+    # Breadth first
+    Fluxite.passall(cmds, :gov1, :gov2)
+    assert log == [{:v2, true}, {:v1, true}]
+    assert v1 && v2
+  end
+
   test "#each" do
     o = Port(Int32).new
 

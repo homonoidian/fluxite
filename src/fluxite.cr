@@ -28,9 +28,54 @@ module Fluxite
     Unit.pass(unit, object)
   end
 
+  # Passes multiple *objects* to *unit* simultaneously.
+  #
+  # All of objects are handled in a single swoop, retaining level-by-level/
+  # breadth-first approach vs. the depth-first approach relative to *objects*
+  # as a whole if one did multiple consecutive calls to `pass`.
+  #
+  # ```
+  # xs = Fluxite::Port(Int32).new
+  # xs.select(&.even?).each { |x| p! x }
+  #
+  # Fluxite.passall(xs, [101, 102, 103])
+  #
+  # # STDOUT:
+  # #   x # => 100
+  # #   x # => 102
+  # ```
+  def self.passall(unit, objects : Enumerable)
+    Unit.passall(unit, objects)
+  end
+
+  # Passes multiple *objects* to *unit* simultaneously, listing them immediately
+  # in the arguments.
+  #
+  # See `passall`.
+  #
+  # ```
+  # Fluxite.passall(xs, 1, 2, 3) # Same as Fluxite.passall(xs, {1, 2, 3})
+  # ```
+  def self.passall(unit, *objects)
+    passall(unit, objects)
+  end
+
   # A shorthand for `pass`.
+  #
+  # ```
+  # Fluxite[xs, 100] # Same as Fluxite.pass(xs, 100)
+  # ```
   def self.[](unit, object)
     pass(unit, object)
+  end
+
+  # A shorthand for `passall`.
+  #
+  # ```
+  # Fluxite[xs, 1, 2, 3] # Same as Fluxite.passall(xs, 1, 2, 3)
+  # ```
+  def self.[](unit, *objects)
+    passall(unit, objects)
   end
 
   # Combines the emission of one or more *units* into a single unit whose

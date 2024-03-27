@@ -32,6 +32,16 @@ module Fluxite
         message.deliver(queue)
       end
     end
+
+    def self.passall(unit : IFanout(T), objects : Enumerable(T)) forall T
+      queue = Deque(BaseMessage).new(objects.size)
+      objects.each do |object|
+        queue << Message(T).new(unit, unit, object)
+      end
+      while message = queue.shift?
+        message.deliver(queue)
+      end
+    end
   end
 
   module IFanout(T)
